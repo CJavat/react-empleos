@@ -1,7 +1,25 @@
 const Usuario = require("../models/Usuario.models");
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
-// const login = async (req, res, next) => {}
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const usuario = await Usuario.findOne({ email });
+
+  if (!usuario) {
+    return res.status(404).json({ msg: "El usuario no existe." });
+  }
+
+  // Comprobar password.
+  const comprobarPassword = bcrypt.compareSync(password, usuario.password);
+  if (!comprobarPassword) {
+    return res.status(404).json({ msg: "El password es incorrecto." });
+  }
+
+  // Si usuario y password son correctos...
+  res.json({ msg: "Datos Correctos - Iniciando Sesión..." });
+};
 
 const registrarUsuario = async (req, res, next) => {
   const errors = validationResult(req);
@@ -44,4 +62,4 @@ const registrarUsuario = async (req, res, next) => {
   }
 };
 
-module.exports = { registrarUsuario };
+module.exports = { login, registrarUsuario };

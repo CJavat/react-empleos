@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { registrarUsuario } = require("../controllers/usuario.controllers");
+const {
+  login,
+  registrarUsuario,
+} = require("../controllers/usuario.controllers");
 
 // Validar formulario.
 const { check } = require("express-validator");
+
+router.post("/login", login);
 
 router.post(
   "/registrar-usuario",
