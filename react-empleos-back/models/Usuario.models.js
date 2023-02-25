@@ -5,21 +5,18 @@ const bcrypt = require("bcrypt");
 const usuarioSchema = new Schema({
   email: {
     type: String,
-    unique: true,
     lowercase: true,
     required: true,
     trim: true,
   },
   nombre: {
     type: String,
-    unique: true,
     lowercase: true,
     required: true,
     trim: true,
   },
   apellido: {
     type: String,
-    unique: true,
     lowercase: true,
     required: true,
     trim: true,

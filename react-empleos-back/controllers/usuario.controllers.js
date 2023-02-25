@@ -1,23 +1,47 @@
 const Usuario = require("../models/Usuario.models");
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 // const login = async (req, res, next) => {}
 
 const registrarUsuario = async (req, res, next) => {
-  const usuario = req.body;
-
-  // validar password con repassword.
-  console.log(usuario.password === usuario.repassword);
-
-  // const registrarUsuario = await Usuario.create(usuario);
-
   const errors = validationResult(req);
+
+  if (req.body.password !== req.body.repassword) {
+    const errorPassword = [
+      ...errors.array(),
+      {
+        value: req.body.repassword,
+        msg: "Los passwords no coinciden",
+        param: "repassword",
+        location: "body",
+      },
+    ];
+
+    if (errorPassword.length > 0) {
+      return res.status(404).json({ msg: errorPassword });
+    }
+  }
   // Si hay errores.
-  console.log();
   if (!errors.isEmpty()) {
     return res.status(404).json({ msg: errors.array() });
   }
-  res.json({ msg: usuario });
+
+  // Verificar si el usuario esta registrado.
+  const { email } = req.body;
+  let agregarUsuario = await Usuario.findOne({ email });
+  if (agregarUsuario) {
+    return res.status(400).json({ msg: "El usuario ya está registrado." });
+  }
+
+  // Agregar el usuario a la DB.
+  agregarUsuario = new Usuario(req.body);
+
+  try {
+    await agregarUsuario.save();
+    res.json({ msg: "Usuario Creado Correctamente" });
+  } catch (error) {
+    console.log("Hubo un error al registrarse: ", error);
+  }
 };
 
 module.exports = { registrarUsuario };
