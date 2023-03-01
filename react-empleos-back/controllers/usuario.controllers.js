@@ -14,7 +14,7 @@ const login = async (req, res, next) => {
   // Comprobar password.
   const comprobarPassword = bcrypt.compareSync(password, usuario.password);
   if (!comprobarPassword) {
-    return res.status(404).json({ msg: "El password es incorrecto." });
+    return res.status(400).json({ msg: "El password es incorrecto." });
   }
 
   // Si usuario y password son correctos...
