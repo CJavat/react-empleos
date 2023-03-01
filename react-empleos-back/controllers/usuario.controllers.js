@@ -17,13 +17,14 @@ const registrarUsuario = async (req, res, next) => {
       },
     ];
 
+    // Comprueba si el password está vacío.
     if (errorPassword.length > 0) {
-      return res.status(404).json({ msg: errorPassword });
+      return res.status(400).json({ msg: errorPassword });
     }
   }
   // Si hay errores.
   if (!errors.isEmpty()) {
-    return res.status(404).json({ msg: errors.array() });
+    return res.status(400).json({ msg: errors.array() });
   }
 
   // Verificar si el usuario esta registrado.
@@ -40,7 +41,7 @@ const registrarUsuario = async (req, res, next) => {
     await agregarUsuario.save();
     res.json({ msg: "Usuario Creado Correctamente" });
   } catch (error) {
-    console.log("Hubo un error al registrarse: ", error);
+    return res.status(400).json({ msg: "Hubo un error al registrarse: " });
   }
 };
 
