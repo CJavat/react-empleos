@@ -3,6 +3,8 @@ const router = express.Router();
 const {
   login,
   registrarUsuario,
+  subirFoto,
+  subirCV,
 } = require("../controllers/usuario.controllers");
 
 // Validar formulario.
@@ -12,6 +14,8 @@ router.post("/login", login);
 
 router.post(
   "/registrar-usuario",
+  subirFoto,
+  subirCV,
   [
     check("email").isEmail().withMessage("Introduce un Email Válido"),
     check("nombre")
@@ -31,5 +35,7 @@ router.post(
   ],
   registrarUsuario
 );
+
+//TODO: Crear un endpoint en solitario, tipo PATCH para solo actualizar la foto y otro para cv. Por si el usuario quiere subir después los archivos.
 
 module.exports = router;

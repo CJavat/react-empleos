@@ -26,9 +26,15 @@ const usuarioSchema = new Schema({
     required: true,
     trim: true,
   },
+  foto: {
+    type: String,
+  },
   rol: {
     type: String,
     required: true,
+  },
+  cv: {
+    type: String,
   },
   token: String,
 });

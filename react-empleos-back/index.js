@@ -4,10 +4,18 @@ const bodyParser = require("body-parser");
 const routerUsuarios = require("./routes/usuario.routes");
 const db = require("./config/db");
 const app = express();
+const cors = require("cors");
 
-// Habilitar bodyParser.
+//! Habilitar bodyParser.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//! Habilitar CORS.
+app.use(cors());
+
+//! Habilitar Carpeta Pública.
+app.use(express.static("uploads"));
+app.use(express.static("docs"));
 
 // Rutas.
 app.use("/api/usuarios", routerUsuarios);
