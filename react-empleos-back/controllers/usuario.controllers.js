@@ -1,15 +1,23 @@
 const Usuario = require("../models/Usuario.models");
+const { formatearFecha } = require("../helpers/validaciones");
 
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const shortid = require("shortid");
 
-//* SUBIR FOTO - CONFIGURACION MULTER.
-const configuracionMulterFoto = {
+//! MULTER - SUBIR ARCHIVOS ---------------------------------
+const configuracionMulterArchivos = {
   storage: (fileStorage = multer.diskStorage({
     destination: (req, res, cb) => {
-      cb(null, __dirname + "/../uploads/");
+      if (req.files?.foto) {
+        if (!req.files?.cv) {
+          cb(null, __dirname + "/../uploads/pic");
+        }
+      }
+      if (req.files?.cv) {
+        cb(null, __dirname + "/../uploads/docs");
+      }
     },
     filename: (req, file, cb) => {
       const extension = file.mimetype.split("/")[1];
@@ -17,7 +25,11 @@ const configuracionMulterFoto = {
     },
   })),
   fileFilter(req, file, cb) {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    if (
+      file.mimetype === "image/jpeg" ||
+      file.mimetype === "image/png" ||
+      file.mimetype === "application/pdf"
+    ) {
       cb(null, true);
     } else {
       cb(new Error("Formato No Válido. Sube un archivo JPG o PNG"));
@@ -25,52 +37,22 @@ const configuracionMulterFoto = {
   },
 };
 
-//* SUBIR FOTO - Pasar la configuración y el campo.
-//TODO: Puede ser la solución, cambiar el single por uno que acepte varios.
-const uploadFoto = multer(configuracionMulterFoto).single("foto");
+const uploadArchivos = multer(configuracionMulterArchivos).fields([
+  { name: "cv", maxCount: 1 },
+  { name: "foto", maxCount: 1 },
+]);
 
-//* SUBIR FOTO - Subir la foto.
-const subirFoto = (req, res, next) => {
-  uploadFoto(req, res, function (error) {
+const subirArchivos = (req, res, next) => {
+  uploadArchivos(req, res, function (error) {
+    // console.log(req);
     if (error) {
-      res.json({ msg: error });
+      return res.json({ msg: error });
     }
-    return next();
+
+    next();
   });
 };
-
-//* SUBIR CV - Configuración Multer
-const configuracionMulterCV = {
-  storage: (fileStorage = multer.diskStorage({
-    destination: (req, res, cb) => {
-      cb(null, __dirname + "/../docs/");
-    },
-    filename: (req, file, cb) => {
-      const extension = file.mimetype.split("/")[1];
-      cb(null, `${shortid.generate()}.${extension}`);
-    },
-  })),
-  fileFilter(req, file, cb) {
-    if (file.mimetype === "application/pdf") {
-      cb(null, true);
-    } else {
-      cb(new Error("Formato No Válido. Sube un archivo PDF"));
-    }
-  },
-};
-
-//* SUBIR CV - Pasar la configuración y el campo.
-const uploadCV = multer(configuracionMulterCV).single("cv");
-
-//* SUBIR CV - Subir el cv.
-const subirCV = (req, res, next) => {
-  uploadCV(req, res, function (error) {
-    if (error) {
-      res.json({ msg: error });
-    }
-    return next();
-  });
-};
+//! -----------------------------------------------------------------
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -86,6 +68,8 @@ const login = async (req, res, next) => {
   if (!comprobarPassword) {
     return res.status(400).json({ msg: "El password es incorrecto." });
   }
+
+  //TODO: generar el JWT y guardarlo en localStorage.
 
   // Si usuario y password son correctos...
   res.json({ msg: "Autenticación Exitosa" });
@@ -126,18 +110,84 @@ const registrarUsuario = async (req, res, next) => {
   agregarUsuario = new Usuario(req.body);
 
   try {
-    console.log(req.file);
-    return;
-    //TODO: TERMINAR EL ENVIAR 2 ARCHIVOS AL MISMO TIEMPO.
-    if (req.file?.filename) {
-      agregarUsuario.foto = req.file.filename;
+    if (req.files?.foto) {
+      agregarUsuario.foto = req.files.foto[0].filename;
+    }
+
+    if (req.files?.cv) {
+      agregarUsuario.cv = req.files.cv[0].filename;
     }
 
     await agregarUsuario.save();
     res.json({ msg: "Usuario Creado Correctamente" });
   } catch (error) {
-    return res.status(400).json({ msg: "Hubo un error al registrarse: " });
+    return res
+      .status(400)
+      .json({ msg: "Hubo un error al registrarse: ", error });
   }
 };
 
-module.exports = { login, registrarUsuario, subirFoto, subirCV };
+const obtenerUsuarios = async (req, res) => {
+  const usuarios = await Usuario.find();
+
+  if (!usuarios) {
+    return res.status(404).json({ msg: "No Hay Usuarios" });
+  }
+
+  res.json(usuarios);
+};
+
+const obtenerUsuario = async (req, res) => {
+  const usuario = await Usuario.findById(req.params.idCuenta);
+
+  if (!usuario) {
+    return res.status(404).json({ msg: "Usuario No Encontrado" });
+  }
+
+  res.json(usuario);
+};
+
+const editarCuenta = async (req, res, next) => {
+  const usuario = req.body;
+
+  const encontrarUsuario = await Usuario.findOne(req.params);
+  if (!encontrarUsuario) {
+    return res.json({ msg: "El usuario no existe" });
+  }
+
+  try {
+    await Usuario.findOneAndUpdate({ _id: req.params.idCuenta }, usuario, {
+      new: true,
+    });
+
+    res.json({ msg: "Usuario Actualizado Correctamente" });
+  } catch (error) {
+    return res.status(401).json({ msg: `Ha ocurrido un error: ${error}` });
+  }
+};
+
+const eliminarCuenta = async (req, res) => {
+  try {
+    const cuenta = await Usuario.findByIdAndDelete(req.params.idCuenta);
+
+    if (!cuenta) {
+      return res.status(404).json({ msg: "La Cuenta No Existe" });
+    }
+
+    res.json({ msg: "Cuenta Eliminada Correctamente" });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ msg: `Ha ocurrido un error al eliminar la cuenta` });
+  }
+};
+
+module.exports = {
+  login,
+  registrarUsuario,
+  subirArchivos,
+  obtenerUsuarios,
+  obtenerUsuario,
+  editarCuenta,
+  eliminarCuenta,
+};
