@@ -10,10 +10,12 @@ const registrarEmpresa = async (req, res, next) => {
   }).populate("reclutador");
 
   if (esReclutador.reclutador.rol === "Empleado") {
-    return res.json({
+    return res.status(403).json({
       msg: "Los empledos no pueden registrar empresa, registrate como un Reclutador",
     });
   }
+
+  //TODO: AGREGAR VALIDACIÓN --
 
   const empresa = new Empresa(req.body);
 
@@ -22,7 +24,9 @@ const registrarEmpresa = async (req, res, next) => {
       empresa.save();
       res.json({ msg: "Empresa Registrada Correctamente" });
     } catch (error) {
-      return res.json({ msg: "Ocurrió un error al agregar la empresa" });
+      return res
+        .status(400)
+        .json({ msg: "Ocurrió un error al agregar la empresa" });
     }
 };
 
@@ -36,7 +40,7 @@ const mostrarEmpresa = async (req, res, next) => {
   }).populate("reclutador");
 
   if (!empresaEncontrada) {
-    return res.json({ msg: "No se ha encontrado la empresa" });
+    return res.status(404).json({ msg: "No se ha encontrado la empresa" });
   }
 
   res.json(empresaEncontrada);
@@ -46,7 +50,7 @@ const mostrarEmpresa = async (req, res, next) => {
 const mostrarEmpresas = async (req, res, next) => {
   const empresas = await Empresa.find().select("-__v");
   if (!empresas) {
-    return res.json({ msg: "No hay empresas registradas" });
+    return res.status(404).json({ msg: "No hay empresas registradas" });
   }
 
   res.json(empresas);
@@ -58,11 +62,12 @@ const actualizarEmpresa = async (req, res, next) => {
   const datosActualizados = req.body;
 
   //TODO: PEDIR EL ID DEL USUARIO Y EMPRESA Y SOLO MOSTRAR LA EMPRESA SI EL USUARIO ES EL DUEÑO.
+  //TODO: AGREGAR VALIDACIÓN --
 
   try {
     const usuarioEncontrado = await Usuario.findById({ _id: idUsuario });
     if (!usuarioEncontrado) {
-      return res.json({ msg: "No se ha encontrado el usuario" });
+      return res.status(404).json({ msg: "No se ha encontrado el usuario" });
     }
 
     const empresaEncontrada = await Empresa.findOne({
@@ -71,7 +76,7 @@ const actualizarEmpresa = async (req, res, next) => {
     });
 
     if (!empresaEncontrada) {
-      return res.json({ msg: "No se ha encontrado la empresa" });
+      return res.status(404).json({ msg: "No se ha encontrado la empresa" });
     }
 
     await Empresa.findByIdAndUpdate(
@@ -92,7 +97,7 @@ const eliminarEmpresa = async (req, res, next) => {
 
   const usuarioEncontrado = await Usuario.findById({ _id: idUsuario });
   if (!usuarioEncontrado) {
-    return res.json({ msg: "No se ha encontrado el usuario" });
+    return res.status(404).json({ msg: "No se ha encontrado el usuario" });
   }
 
   const empresaEncontrada = await Empresa.findOne({
@@ -101,7 +106,7 @@ const eliminarEmpresa = async (req, res, next) => {
   });
 
   if (!empresaEncontrada) {
-    return res.json({ msg: "No se ha encontrado la empresa" });
+    return res.status(404).json({ msg: "No se ha encontrado la empresa" });
   }
 
   await Empresa.findByIdAndDelete({ _id: idEmpresa });

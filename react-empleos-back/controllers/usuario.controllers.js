@@ -152,7 +152,7 @@ const editarCuenta = async (req, res, next) => {
 
   const encontrarUsuario = await Usuario.findOne(req.params);
   if (!encontrarUsuario) {
-    return res.json({ msg: "El usuario no existe" });
+    return res.status(404).json({ msg: "El usuario no existe" });
   }
 
   try {
