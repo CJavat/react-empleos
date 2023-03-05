@@ -19,9 +19,9 @@ router.get("/mostrar-empresa/:idEmpresa", mostrarEmpresa);
 router.get("/mostrar-empresas", mostrarEmpresas);
 
 //! ACTUALIZAR DATOS DE UNA EMPRESA --
-router.put("/actualizar-empresa", actualizarEmpresa);
+router.put("/actualizar-empresa/:idEmpresa&:idUsuario", actualizarEmpresa);
 
 //! ELIMINAR EMPRESA --
-router.delete("/eliminar-empresa", eliminarEmpresa);
+router.delete("/eliminar-empresa/:idEmpresa&:idUsuario", eliminarEmpresa);
 
 module.exports = router;

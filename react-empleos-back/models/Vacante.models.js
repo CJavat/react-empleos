@@ -1,9 +1,30 @@
-//! BORRADOR DE ALGUNAS COSAS QUE DEBE LLEVAR EL MODELO.
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-/*
-nombre vacante
-salario
-dias de trabajo
-descripcion de la vacante
-ref a la empresa
-*/
+const vacanteSchema = new Schema({
+  nombre: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  salario: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  diasTrabajo: {
+    type: String,
+    trim: true,
+  },
+  descripcion: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  empresa: {
+    type: Schema.ObjectId,
+    ref: "Empresa",
+  },
+});
+
+module.exports = mongoose.model("Vacante", vacanteSchema);
