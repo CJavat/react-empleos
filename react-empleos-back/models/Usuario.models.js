@@ -46,7 +46,6 @@ const usuarioSchema = new Schema({
   cv: {
     type: String,
   },
-  //* ref a la empresa del usuario.
   url: String,
   confirmado: Number,
   token: String,

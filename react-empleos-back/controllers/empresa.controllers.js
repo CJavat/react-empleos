@@ -23,8 +23,6 @@ const registrarEmpresa = async (req, res, next) => {
     });
   }
 
-  //TODO: AGREGAR VALIDACIÓN --
-
   const empresa = new Empresa(req.body);
 
   if (empresa.reclutador)
@@ -68,8 +66,6 @@ const mostrarEmpresas = async (req, res, next) => {
 const actualizarEmpresa = async (req, res, next) => {
   const { idEmpresa, idUsuario } = req.params;
   const datosActualizados = req.body;
-
-  //TODO: PEDIR EL ID DEL USUARIO Y EMPRESA Y SOLO MOSTRAR LA EMPRESA SI EL USUARIO ES EL DUEÑO.
 
   const errors = validationResult(req);
 

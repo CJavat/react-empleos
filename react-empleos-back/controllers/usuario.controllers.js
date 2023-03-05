@@ -2,6 +2,7 @@ const Usuario = require("../models/Usuario.models");
 const { formatearFecha } = require("../helpers/validaciones");
 
 const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const shortid = require("shortid");
@@ -68,8 +69,16 @@ const login = async (req, res, next) => {
   if (!comprobarPassword) {
     return res.status(400).json({ msg: "El password es incorrecto." });
   }
+  const { _id, nombre, apellido } = usuario;
 
-  //TODO: generar el JWT y guardarlo en localStorage.
+  //* Generar el JWT.
+  const token = jwt.sign(
+    { id: _id.toString(), nombre, apellido },
+    "PALABRASECRETA",
+    { expiresIn: "30d" }
+  );
+  //TODO: PROBAR QUE FUNCIONA EL TOKEN Y QUE SE AGERGA CORRECTAMENTE AL LOCAL STORAGE.
+  localStorage.setItem("token", token);
 
   // Si usuario y password son correctos...
   res.json({ msg: "Autenticación Exitosa" });
