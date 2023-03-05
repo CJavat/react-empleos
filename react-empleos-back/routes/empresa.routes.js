@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+//* EXPRESS VALIDATOR.
+const { body } = require("express-validator");
+
 const {
   registrarEmpresa,
   mostrarEmpresa,
@@ -10,7 +13,29 @@ const {
 } = require("../controllers/empresa.controllers");
 
 //! REGISTRAR LOS DATOS DE LA EMPRESA --
-router.post("/registrar-empresa/:idUsuario", registrarEmpresa);
+router.post(
+  "/registrar-empresa/:idUsuario",
+  [
+    body("empresa")
+      .notEmpty()
+      .withMessage("El nombre de la empresa es obligatorio"),
+
+    body("pais")
+      .isString()
+      .withMessage("Introduce puros letras")
+      .notEmpty()
+      .withMessage("El pais es obligatorio"),
+
+    body("estado")
+      .isString()
+      .withMessage("Introduce puros letras")
+      .notEmpty()
+      .withMessage("El estado es obligatorio"),
+
+    body("urlEmpresa").isURL().withMessage("Escribe una URL válida"),
+  ],
+  registrarEmpresa
+);
 
 //! MOSTRAR EMPRESA CON LOS DATOS DEL RECLUTADOR --
 router.get("/mostrar-empresa/:idEmpresa", mostrarEmpresa);
@@ -19,7 +44,29 @@ router.get("/mostrar-empresa/:idEmpresa", mostrarEmpresa);
 router.get("/mostrar-empresas", mostrarEmpresas);
 
 //! ACTUALIZAR DATOS DE UNA EMPRESA --
-router.put("/actualizar-empresa/:idEmpresa&:idUsuario", actualizarEmpresa);
+router.put(
+  "/actualizar-empresa/:idEmpresa&:idUsuario",
+  [
+    body("empresa")
+      .notEmpty()
+      .withMessage("El nombre de la empresa es obligatorio"),
+
+    body("pais")
+      .isString()
+      .withMessage("Introduce puros letras")
+      .notEmpty()
+      .withMessage("El pais es obligatorio"),
+
+    body("estado")
+      .isString()
+      .withMessage("Introduce puros letras")
+      .notEmpty()
+      .withMessage("El estado es obligatorio"),
+
+    body("urlEmpresa").isURL().withMessage("Escribe una URL válida"),
+  ],
+  actualizarEmpresa
+);
 
 //! ELIMINAR EMPRESA --
 router.delete("/eliminar-empresa/:idEmpresa&:idUsuario", eliminarEmpresa);

@@ -1,9 +1,17 @@
+const { validationResult } = require("express-validator");
 const Empresa = require("../models/Empresa.models");
 const Usuario = require("../models/Usuario.models");
 
 //! REGISTRAR UNA EMPRESA --
 const registrarEmpresa = async (req, res, next) => {
   const { idUsuario } = req.params;
+
+  const errors = validationResult(req);
+
+  // Si hay errores.
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array() });
+  }
 
   const esReclutador = await Empresa.findOne({
     reclutador: idUsuario,
@@ -62,7 +70,13 @@ const actualizarEmpresa = async (req, res, next) => {
   const datosActualizados = req.body;
 
   //TODO: PEDIR EL ID DEL USUARIO Y EMPRESA Y SOLO MOSTRAR LA EMPRESA SI EL USUARIO ES EL DUEÑO.
-  //TODO: AGREGAR VALIDACIÓN --
+
+  const errors = validationResult(req);
+
+  // Si hay errores.
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array() });
+  }
 
   try {
     const usuarioEncontrado = await Usuario.findById({ _id: idUsuario });

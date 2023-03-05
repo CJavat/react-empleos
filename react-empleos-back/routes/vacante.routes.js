@@ -45,7 +45,29 @@ router.get("/mostrar-vacante/:idVacante", mostrarVacante);
 router.get("/mostrar-vacantes/", mostrarVacantes);
 
 //! ACTUALIZAR VACANTE POR ID --
-router.put("/actualizar-vacante/:idVacante", actualizarVacante);
+router.put(
+  "/actualizar-vacante/:idVacante",
+  [
+    body("nombre")
+      .isString()
+      .withMessage("Introduce puros letras")
+      .notEmpty()
+      .withMessage("El nombre de la vacante es obligatorio"),
+
+    body("salario")
+      .isNumeric()
+      .withMessage("Debe ser digitos")
+      .isLength({ min: 3 })
+      .withMessage("Escribe solamente numeros. Mínimo 3 digítos"),
+
+    body("diasTrabajo").isString().withMessage("Introduce puros letras"),
+
+    body("descripcion")
+      .isLength({ min: 20 })
+      .withMessage("Escribe una descripción más larga"),
+  ],
+  actualizarVacante
+);
 
 //! ELIMINAR UNA VACANTE MEDIANTE SU ID --
 router.delete("/eliminar-vacante/:idVacante", eliminarVacante);

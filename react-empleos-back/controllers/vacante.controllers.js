@@ -56,7 +56,12 @@ const actualizarVacante = async (req, res, next) => {
   const { idVacante } = req.params;
   const actualizarVacante = req.body;
 
-  //TODO: AGREGAR VALIDACIÓN --
+  const errors = validationResult(req);
+
+  // Si hay errores.
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array() });
+  }
 
   try {
     const vacanteEncontrada = await Vacante.findById({ _id: idVacante });
