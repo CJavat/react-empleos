@@ -3,8 +3,19 @@ const express = require("express");
 const router = express.Router();
 
 //! CONTROLADORES IMPORTADOS --
-const { olvidePassword } = require("../controllers/auth.controllers");
+const {
+  comprobarCuenta,
+  olvidePassword,
+  comprobarToken,
+  recuperarPassword,
+} = require("../controllers/auth.controllers");
 
-router.post("/olvide-password", olvidePassword);
+router.post("/comprobar-cuenta/:token", comprobarCuenta);
+
+router.post("/olvide-password/", olvidePassword);
+
+router.post("/comprobar-token/:token", comprobarToken);
+
+router.post("/recuperar-password/", recuperarPassword);
 
 module.exports = router;

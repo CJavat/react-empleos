@@ -47,7 +47,10 @@ const usuarioSchema = new Schema({
     type: String,
   },
   url: String,
-  confirmado: Number,
+  confirmado: {
+    type: Number,
+    default: 0,
+  },
   token: String,
 });
 

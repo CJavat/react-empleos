@@ -1,5 +1,5 @@
 const Usuario = require("../models/Usuario.models");
-const { formatearFecha } = require("../helpers/validaciones");
+const { comprobarCuenta } = require("../config/mailtrap");
 
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
@@ -74,14 +74,12 @@ const login = async (req, res, next) => {
   //* Generar el JWT.
   const token = jwt.sign(
     { id: _id.toString(), nombre, apellido },
-    "PALABRASECRETA",
+    process.env.PALABRA_SECRETA,
     { expiresIn: "30d" }
   );
-  //TODO: PROBAR QUE FUNCIONA EL TOKEN Y QUE SE AGERGA CORRECTAMENTE AL LOCAL STORAGE.
-  localStorage.setItem("token", token);
 
   // Si usuario y password son correctos...
-  res.json({ msg: "Autenticación Exitosa" });
+  res.json({ msg: "Autenticación Exitosa", token });
 };
 
 const registrarUsuario = async (req, res, next) => {
@@ -127,8 +125,25 @@ const registrarUsuario = async (req, res, next) => {
       agregarUsuario.cv = req.files.cv[0].filename;
     }
 
+    // Generar el token para despues guardarlo.
+    const token = jwt.sign(
+      { email: agregarUsuario.email, nombre: agregarUsuario.nombre },
+      process.env.PALABRA_SECRETA,
+      {
+        expiresIn: "1h",
+      }
+    );
+    agregarUsuario.token = token;
     await agregarUsuario.save();
-    res.json({ msg: "Usuario Creado Correctamente" });
+
+    comprobarCuenta({
+      email: agregarUsuario.email,
+      nombre: agregarUsuario.nombre,
+      token,
+    });
+    res.json({
+      msg: "Usuario Creado Correctamente, Se envió un correo a tu email para que confirmes tu cuenta",
+    });
   } catch (error) {
     return res
       .status(400)
