@@ -13,6 +13,8 @@ const comprobarCuenta = async (datos) => {
     },
   });
 
+  fragmentToken = token.split(".");
+
   // Información del email.
   const info = await transport.sendMail({
     from: "'reactEmpleos' <noreply@reactempleos.com>",
@@ -21,7 +23,7 @@ const comprobarCuenta = async (datos) => {
     text: "Reestablece Tu Password",
     html: `<p>Hola: ${nombre}, comprueba tu password para poder iniciar sesión. </p>
             <p>Sigue el siguiente enlace para confirmar tu cuenta:</p>
-            <a href="${process.env.FRONTEND_URL}/olvide-password/${token}">Confirmar Cuenta</a>
+            <a href="${process.env.FRONTEND_URL}/auth/olvide-password/${fragmentToken[0]}&${fragmentToken[1]}&${fragmentToken[2]}">Confirmar Cuenta</a>
             <p>Si tu no solicitaste este email puedes ignorar este mensaje.</p>
     `,
   });

@@ -20,7 +20,6 @@ router.post("/login", login);
 //! REGISTRAR UN USUARIO --
 router.post(
   "/registrar-usuario",
-  subirArchivos,
   [
     check("email").isEmail().withMessage("Introduce un Email Válido"),
     check("nombre")
@@ -28,20 +27,10 @@ router.post(
       .isNumeric()
       .isLength({ min: 3 })
       .withMessage("Nombre incorrecto"),
-    check("apellido")
-      .not()
-      .isNumeric()
-      .isLength({ min: 3 })
-      .withMessage("Apellido incorrecto"),
     check("password")
       .isLength({ min: 6 })
       .withMessage("El password no debe ser menor a 6 caracteres"),
     check("rol").not().isEmpty().withMessage("Selecciona un rol"),
-    check("telefono")
-      .isLength({ min: 10, max: 10 })
-      .notEmpty()
-      .withMessage("El campo es obligatorio y debe contener 10 digitos"),
-    check("nacionalidad").notEmpty().withMessage("El campo es obligatorio"),
   ],
   registrarUsuario
 );

@@ -8,25 +8,33 @@ import PublicLayout from "./Layout/PublicLayout";
 import Login from "./pages/auth/Login";
 import RecuperarPassword from "./pages/auth/RecuperarPassword";
 import CrearCuenta from "./pages/auth/CrearCuenta";
+import ComprobarCuenta from "./pages/auth/ComprobarCuenta";
 
 import Inicio from "./pages/Inicio";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/auth" element={<PublicLayout />}>
+        <Route element={<PublicLayout />}>
           <Route path="/auth/iniciar-sesion" element={<Login />} />
           <Route path="/auth/crear-cuenta" element={<CrearCuenta />} />
           <Route
             path="/auth/recuperar-password"
             element={<RecuperarPassword />}
           />
+          <Route
+            path="/auth/comprobar-cuenta/:token"
+            element={<ComprobarCuenta />}
+          />
         </Route>
 
         <Route path="/" element={<AuthLayout />}>
           <Route index element={<Inicio />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

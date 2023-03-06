@@ -58,28 +58,34 @@ const subirArchivos = (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const usuario = await Usuario.findOne({ email });
+  try {
+    const usuario = await Usuario.findOne({ email });
 
-  if (!usuario) {
-    return res.status(404).json({ msg: "El usuario no existe." });
+    if (!usuario) {
+      return res.status(404).json({ msg: "El usuario no existe." });
+    }
+
+    // Comprobar password.
+    const comprobarPassword = bcrypt.compareSync(password, usuario.password);
+    if (!comprobarPassword) {
+      return res.status(400).json({ msg: "El password es incorrecto." });
+    }
+    const { _id, nombre, apellido } = usuario;
+
+    //* Generar el JWT.
+    const token = jwt.sign(
+      { id: _id.toString(), nombre, apellido },
+      process.env.PALABRA_SECRETA,
+      { expiresIn: "30d" }
+    );
+
+    // Si usuario y password son correctos...
+    res.json({ msg: "Autenticación Exitosa", token });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ msg: "Ha ocurrido un error: " + error.message });
   }
-
-  // Comprobar password.
-  const comprobarPassword = bcrypt.compareSync(password, usuario.password);
-  if (!comprobarPassword) {
-    return res.status(400).json({ msg: "El password es incorrecto." });
-  }
-  const { _id, nombre, apellido } = usuario;
-
-  //* Generar el JWT.
-  const token = jwt.sign(
-    { id: _id.toString(), nombre, apellido },
-    process.env.PALABRA_SECRETA,
-    { expiresIn: "30d" }
-  );
-
-  // Si usuario y password son correctos...
-  res.json({ msg: "Autenticación Exitosa", token });
 };
 
 const registrarUsuario = async (req, res, next) => {
@@ -117,13 +123,14 @@ const registrarUsuario = async (req, res, next) => {
   agregarUsuario = new Usuario(req.body);
 
   try {
-    if (req.files?.foto) {
-      agregarUsuario.foto = req.files.foto[0].filename;
-    }
+    //TODO: CAMBIARLO A OTRA RUTA, DONDE SE VAN A AGREGAR LOS DATOS FALTANTES.
+    //   if (req.files?.foto) {
+    //     agregarUsuario.foto = req.files.foto[0].filename;
+    //   }
 
-    if (req.files?.cv) {
-      agregarUsuario.cv = req.files.cv[0].filename;
-    }
+    //   if (req.files?.cv) {
+    //     agregarUsuario.cv = req.files.cv[0].filename;
+    //   }
 
     // Generar el token para despues guardarlo.
     const token = jwt.sign(

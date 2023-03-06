@@ -15,43 +15,31 @@ const usuarioSchema = new Schema({
     required: true,
     trim: true,
   },
-  apellido: {
-    type: String,
-    lowercase: true,
-    required: true,
-    trim: true,
-  },
   password: {
     type: String,
     required: true,
     trim: true,
   },
-  nacionalidad: {
-    type: String,
-    trim: true,
-    required: true,
-  },
   telefono: {
     type: String,
     trim: true,
-    required: true,
-  },
-  foto: {
-    type: String,
   },
   rol: {
     type: String,
     required: true,
   },
+  foto: {
+    type: String,
+  },
   cv: {
     type: String,
   },
   url: String,
+  token: String,
   confirmado: {
     type: Number,
     default: 0,
   },
-  token: String,
 });
 
 // Método para hashear los passwords.

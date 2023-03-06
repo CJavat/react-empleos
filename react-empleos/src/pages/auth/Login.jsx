@@ -1,22 +1,74 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+//! IMPORTAR COMPONENTES --
+import Alerta from "../../components/Alerta";
+
+import clienteAxios from "../../helpers/configAxios";
 
 const Login = () => {
+  //* Declaración del navigate, para la reedirecciòn.
+  const navigate = useNavigate();
+
+  //* Delcaraciones de STATES.
+  const [usuario, setUsuario] = useState({});
+  const [alerta, setAlerta] = useState("");
+  const [error, setError] = useState(false);
+
+  const iniciarSesion = async (e) => {
+    e.preventDefault();
+
+    try {
+      const usuarios = await clienteAxios.post("/usuarios/login", usuario);
+
+      setAlerta(usuarios.data.msg);
+      setError(false);
+
+      localStorage.setItem("token", usuarios.data.token);
+
+      setTimeout(() => {
+        setAlerta("");
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      setAlerta(error.response.data.msg);
+      setError(true);
+
+      setTimeout(() => {
+        setAlerta("");
+      }, 1500);
+    }
+  };
+
+  const guardarValores = (e) => {
+    setUsuario({
+      ...usuario,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <>
-      <p className="text-center text-xl sm:text-2xl mt-2 px-2 flex flex-col ">
-        <span className="text-blue-600 font-bold text-5xl">Inicia Sesión</span>{" "}
+      <p className="flex flex-col text-center movilS:text-sm movilL:text-lg tablet:text-3xl desktopL:text-5xl">
+        <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-6xl desktopL:text-9xl">
+          Inicia Sesión{" "}
+        </span>
         para encontrar tu empleo ideal
       </p>
 
-      <form className="flex flex-col items-center mt-6 gap-5 mb-7 text-lg">
+      {alerta.length ? <Alerta mensaje={alerta} error={error} /> : null}
+
+      <form
+        className="flex flex-col items-center mt-5 w-full gap-5"
+        onSubmit={iniciarSesion}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-2/6 lg:w-1/5 xl:w-1/6 bg-blue-700 p-5 font-extrabold rounded-full"
+          className="bg-blue-700 p-5 font-extrabold rounded-full movilS:w-5/12 movilL:w-4/12 tablet:w-2/12 desktopL:w-2/12"
         >
           <path
             strokeLinecap="round"
@@ -25,30 +77,32 @@ const Login = () => {
           />
         </svg>
 
-        <div className="flex justify-center gap-3">
+        <div className="flex flex-col gap-3 movilS:w-11/12 tablet:w-7/12 tablet:text-2xl desktopL:text-4xl desktopL:gap-5">
           <input
             type="text"
-            placeholder="Usuario"
-            className="w-full bg-black border-2 outline-none border-blue-700 rounded-md pl-2 text-white placeholder:text-white placeholder:pl-1 placeholder:text-sm"
+            name="email"
+            placeholder="Email"
+            className="w-full bg-black border-2 text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
+            onChange={guardarValores}
           />
-        </div>
 
-        <div className="flex justify-center gap-3">
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            className=" w-full bg-black border-2 outline-none border-blue-700 rounded-md pl-2 text-white placeholder:text-white placeholder:pl-1 placeholder:text-sm"
+            className="w-full bg-black border-2 text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
+            onChange={guardarValores}
           />
         </div>
 
         <input
           type="submit"
           value="Iniciar Sesión"
-          className="text-white border-blue-700 font-bold border-2 mt-6 px-7 py-1 self-center rounded-lg w-5/6 lg:w-4/6 xl:w-2/6"
+          className="bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
         />
       </form>
 
-      <div className="flex text-center my-6 w-full justify-around">
+      <div className="flex justify-around w-full text-center my-6 desktopL:my-12 tablet:text-xl desktopL:text-3xl">
         <Link to="/auth/recuperar-password">
           <p>
             Recuperar
