@@ -9,6 +9,7 @@ import Login from "./pages/auth/Login";
 import RecuperarPassword from "./pages/auth/RecuperarPassword";
 import CrearCuenta from "./pages/auth/CrearCuenta";
 import ComprobarCuenta from "./pages/auth/ComprobarCuenta";
+import NuevoPassword from "./components/NuevoPassword";
 
 import Inicio from "./pages/Inicio";
 import NotFound from "./pages/NotFound";
@@ -27,6 +28,10 @@ function App() {
           <Route
             path="/auth/comprobar-cuenta/:token"
             element={<ComprobarCuenta />}
+          />
+          <Route
+            path="/auth/nuevo-password/:token"
+            element={<NuevoPassword />}
           />
         </Route>
 

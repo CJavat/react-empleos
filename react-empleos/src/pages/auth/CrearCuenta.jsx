@@ -29,7 +29,7 @@ const CrearCuenta = () => {
       setTimeout(() => {
         setAlerta("");
         navigate("/auth/iniciar-sesion");
-      }, 1000);
+      }, 5000);
     } catch (error) {
       setAlerta(error.response.data.msg);
       setError(true);

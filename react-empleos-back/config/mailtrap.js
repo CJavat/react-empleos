@@ -42,6 +42,8 @@ const emailOlvidePassword = async (datos) => {
     },
   });
 
+  fragmentToken = token.split(".");
+
   // Información del email.
   const info = await transport.sendMail({
     from: "'reactEmpleos' <noreply@reactempleos.com>",
@@ -50,7 +52,7 @@ const emailOlvidePassword = async (datos) => {
     text: "Reestablece Tu Password",
     html: `<p>Hola: ${nombre}, has solicitado reestablecer tu password </p>
             <p>Sigue el siguiente enlace para generar un nuevo password:</p>
-            <a href="${process.env.FRONTEND_URL}/olvide-password/${token}">Reestablecer Password</a>
+            <a href="${process.env.FRONTEND_URL}/auth/nuevo-password/${fragmentToken[0]}&${fragmentToken[1]}&${fragmentToken[2]}">Reestablecer Password</a>
             <p>Si tu no solicitaste este email puedes ignorar este mensaje.</p>
     `,
   });

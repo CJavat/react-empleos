@@ -16,6 +16,6 @@ router.post("/olvide-password/", olvidePassword);
 
 router.post("/comprobar-token/:token", comprobarToken);
 
-router.post("/recuperar-password/", recuperarPassword);
+router.post("/recuperar-password/:token", recuperarPassword);
 
 module.exports = router;

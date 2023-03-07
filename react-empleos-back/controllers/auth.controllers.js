@@ -7,7 +7,7 @@ const comprobarCuenta = async (req, res) => {
   const { token } = req.params;
 
   try {
-    // Buscar cuenta mediante el token.
+    //* Buscar cuenta mediante el token.
     const usuarioEncontrado = await Usuario.findOne({ token });
     if (!usuarioEncontrado) {
       return res.status(404).json({
@@ -15,7 +15,7 @@ const comprobarCuenta = async (req, res) => {
       });
     }
 
-    // Si el usuario existe, confirmar la cuenta.
+    //* Si el usuario existe, confirmar la cuenta.
     usuarioEncontrado.confirmado = 1;
     usuarioEncontrado.token = "";
 
@@ -68,7 +68,8 @@ const olvidePassword = async (req, res, next) => {
 
 //! NUEVO PASSWORD - RECIBIR EL TOKEN Y ACTUALIZAR CONTRASEÑA --
 const recuperarPassword = async (req, res, next) => {
-  const { token, password } = req.body;
+  const { token } = req.params;
+  const { password } = req.body;
 
   try {
     // Obtener el usuario mediante el token.
@@ -98,7 +99,7 @@ const comprobarToken = async (req, res, next) => {
   const validarToken = await Usuario.findOne({ token });
 
   if (!validarToken) {
-    return res.json({ msg: "El token no es válido.", tokenValido: false });
+    return res.json({ msg: "El token ya no es válido.", tokenValido: false });
   }
 
   res.json({ msg: "Token válido", tokenValido: true, token });

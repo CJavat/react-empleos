@@ -36,7 +36,7 @@ const Login = () => {
 
       setTimeout(() => {
         setAlerta("");
-      }, 1500);
+      }, 4000);
     }
   };
 

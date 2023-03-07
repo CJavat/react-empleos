@@ -1,7 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const RecuperarPassword = () => {
+  const enviarToken = () => {};
+
   return (
     <>
       {/* //TODO: FALTA HACER LA PROGRAMACIÓN DE ESTE COMPONENTE*/}
@@ -12,7 +13,10 @@ const RecuperarPassword = () => {
         No pierdas tu acceso
       </p>
 
-      <form className="flex flex-col items-center my-10 gap-5">
+      <form
+        className="flex flex-col items-center my-10 gap-5"
+        onSubmit={enviarToken}
+      >
         <div className="flex flex-col gap-4 movilS:w-11/12 tablet:w-7/12">
           <label
             htmlFor="email"

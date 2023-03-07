@@ -65,11 +65,19 @@ const login = async (req, res, next) => {
       return res.status(404).json({ msg: "El usuario no existe." });
     }
 
-    // Comprobar password.
+    //* Comprobar que la cuenta este verificada.
+    if (usuario.confirmado === 0) {
+      return res.status(403).json({
+        msg: "Cuenta no verificada, por favor verificala para poder iniciar sesión",
+      });
+    }
+
+    //* Comprobar password.
     const comprobarPassword = bcrypt.compareSync(password, usuario.password);
     if (!comprobarPassword) {
       return res.status(400).json({ msg: "El password es incorrecto." });
     }
+
     const { _id, nombre, apellido } = usuario;
 
     //* Generar el JWT.
@@ -79,7 +87,7 @@ const login = async (req, res, next) => {
       { expiresIn: "30d" }
     );
 
-    // Si usuario y password son correctos...
+    //* Si usuario y password son correctos...
     res.json({ msg: "Autenticación Exitosa", token });
   } catch (error) {
     return res
