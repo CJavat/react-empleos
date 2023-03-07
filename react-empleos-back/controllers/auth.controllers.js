@@ -98,9 +98,7 @@ const comprobarToken = async (req, res, next) => {
   const validarToken = await Usuario.findOne({ token });
 
   if (!validarToken) {
-    return res
-      .status(404)
-      .json({ msg: "El token no es válido.", tokenValido: false });
+    return res.json({ msg: "El token no es válido.", tokenValido: false });
   }
 
   res.json({ msg: "Token válido", tokenValido: true, token });
