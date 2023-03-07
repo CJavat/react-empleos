@@ -1,17 +1,57 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import Alerta from "../../components/Alerta";
+
+import clienteAxios from "../../helpers/configAxios";
 
 const RecuperarPassword = () => {
-  const enviarToken = () => {};
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [alerta, setAlerta] = useState("");
+  const [errorAlerta, setErrorAlerta] = useState(false);
+
+  const enviarToken = async (e) => {
+    e?.preventDefault();
+    try {
+      console.log("hola");
+      const respuesta = await clienteAxios.post("/auth/olvide-password", {
+        email,
+      });
+      setAlerta(respuesta.data.msg);
+      setErrorAlerta(false);
+
+      setTimeout(() => {
+        setAlerta("");
+
+        navigate("/auth/iniciar-sesion");
+      }, 6000);
+    } catch (error) {
+      console.log(error);
+      setAlerta(error.response.data.message);
+      setErrorAlerta(true);
+
+      setTimeout(() => {
+        setAlerta("");
+      }, 6000);
+    }
+  };
+
+  const almacenarEmail = (e) => {
+    setEmail(e.target.value);
+  };
 
   return (
     <>
-      {/* //TODO: FALTA HACER LA PROGRAMACIÓN DE ESTE COMPONENTE*/}
       <p className="flex flex-col text-center movilS:text-sm movilL:text-lg tablet:text-3xl desktopL:text-5xl">
         <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-6xl desktopL:text-9xl movilM:mb-2 desktopL:mb-6">
           Recuperar Cuenta
         </span>
         No pierdas tu acceso
       </p>
+
+      {alerta ? <Alerta mensaje={alerta} error={errorAlerta} /> : null}
 
       <form
         className="flex flex-col items-center my-10 gap-5"
@@ -30,6 +70,7 @@ const RecuperarPassword = () => {
             type="text"
             placeholder="Email"
             className="w-full bg-black border-2 text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
+            onChange={almacenarEmail}
           />
         </div>
 

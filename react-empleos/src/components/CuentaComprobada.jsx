@@ -37,8 +37,6 @@ const CuentaComprobada = ({ token }) => {
     comprobarCuenta();
   }, []);
 
-  //TODO: HACER QUE FUNCIONE ESTA PARTE. ERROR TENGO QUE COMPROBAR QUE ERROR ALERTA ES LA UQUE FALLA PORQUE LE DOY FALSE Y NO ENTRA
-
   return (
     <>
       {errorAlerta ? (
@@ -65,7 +63,6 @@ const CuentaComprobada = ({ token }) => {
       ;
     </>
   );
-  //TODO: MOSTRAR ALERTA DE ERROR.
 };
 
 export default CuentaComprobada;

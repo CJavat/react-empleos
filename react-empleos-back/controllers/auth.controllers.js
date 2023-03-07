@@ -105,6 +105,10 @@ const comprobarToken = async (req, res, next) => {
   res.json({ msg: "Token válido", tokenValido: true, token });
 };
 
+//! COMPROBAR JWT Y DEVOLVER DATOS DEL USUARIO.
+//TODO: OBTENER EL TOKEN QUE VIENE DESDE EL FRONT, COMPROBARLO Y
+//TODO: REGRESAR LOS DATOS DEL USUARIO.
+
 module.exports = {
   comprobarCuenta,
   olvidePassword,
