@@ -52,6 +52,7 @@ const CuentaComprobada = ({ token }) => {
       ) : (
         <>
           {alerta ? <Alerta mensaje={alerta} error={errorAlerta} /> : null}
+
           <p className="flex flex-col text-center my-14 movilS:text-sm movilL:text-lg tablet:text-3xl desktopL:text-5xl">
             <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-6xl desktopL:text-9xl movilM:mb-2 desktopL:mb-6">
               Comprobar Cuenta

@@ -18,6 +18,8 @@ const CrearCuenta = () => {
     e.preventDefault();
 
     try {
+      //TODO: HACER QUE SI EL USUARIO ESCOGIO RECLUTADOR, LO MANDE AL COMPONENTE DE AGREGAR EMPRESA, Y QUE NO PUEDA ACTIVAR AL CUENTA, HASTA QUE NO AGREGUE UNA EMPRESA
+      //TODO: MANDAR COMO PROPS LOS DATOS AL COMPONENTE DE CREAR-EMPRESA
       const resultado = await clienteAxios.post(
         "usuarios/registrar-usuario/",
         nuevoUsuario

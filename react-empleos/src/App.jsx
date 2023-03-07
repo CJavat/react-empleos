@@ -33,6 +33,7 @@ function App() {
             path="/auth/nuevo-password/:token"
             element={<NuevoPassword />}
           />
+          {/* //TODO: CREAR RUTA PARA QUE CREE UNA EMPRESA */}
         </Route>
 
         <Route path="/" element={<AuthLayout />}>
