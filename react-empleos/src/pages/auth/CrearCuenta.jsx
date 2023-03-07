@@ -4,10 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../../components/Alerta";
 
 import clienteAxios from "../../helpers/configAxios";
+import useAuth from "../../hooks/useAuth";
 
 const CrearCuenta = () => {
-  //*m Declaraciòn del navigate.
+  //* Declaraciòn del navigate.
   const navigate = useNavigate();
+
+  //* Declaración del hook para el provider.
+  const { setDatosUsuario, setAlertaAtencion } = useAuth();
 
   //* Delcaraciones de STATES.
   const [nuevoUsuario, setNuevoUsuario] = useState({});
@@ -18,8 +22,15 @@ const CrearCuenta = () => {
     e.preventDefault();
 
     try {
-      //TODO: HACER QUE SI EL USUARIO ESCOGIO RECLUTADOR, LO MANDE AL COMPONENTE DE AGREGAR EMPRESA, Y QUE NO PUEDA ACTIVAR AL CUENTA, HASTA QUE NO AGREGUE UNA EMPRESA
-      //TODO: MANDAR COMO PROPS LOS DATOS AL COMPONENTE DE CREAR-EMPRESA
+      if (nuevoUsuario.rol === "Reclutador") {
+        //TODO: AL FINAL SI SE HARÁ LA PETICIÓN, PERO PRIMERO SE DEBE CREAR EL NUEVO CAMPO EN EL MODELO.
+        //TODO: PARA QUE AL FINAL SE LE AGREGUE QUE NO TIENE EMPRESA REGISTRADA EL RECLUTADOR.
+        setDatosUsuario(nuevoUsuario);
+        setAlertaAtencion(true);
+        navigate("/auth/crear-empresa");
+        return;
+      }
+
       const resultado = await clienteAxios.post(
         "usuarios/registrar-usuario/",
         nuevoUsuario
@@ -116,9 +127,10 @@ const CrearCuenta = () => {
           <select
             name="rol"
             className="w-full bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
+            defaultValue="def"
             onChange={guardarDatos}
           >
-            <option value="" disabled selected>
+            <option value="def" disabled>
               SELECCIONA UNA OPCIÒN
             </option>
             <option value="Reclutador">Reclutador</option>

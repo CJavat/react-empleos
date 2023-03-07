@@ -40,6 +40,7 @@ const usuarioSchema = new Schema({
     type: Number,
     default: 0,
   },
+  //TODO: HACER UN CAMPO PARA PODER INDICAR SI LOS RECLUTADORES YA TIENEN AL MENOS UNA EMPRESA ASOCIADA
 });
 
 // Método para hashear los passwords.

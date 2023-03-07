@@ -13,35 +13,39 @@ import NuevoPassword from "./components/NuevoPassword";
 
 import Inicio from "./pages/Inicio";
 import NotFound from "./pages/NotFound";
+import CrearEmpresa from "./pages/auth/CrearEmpresa";
+import { AuthProvider } from "./context/AuthProvider";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<PublicLayout />}>
-          <Route path="/auth/iniciar-sesion" element={<Login />} />
-          <Route path="/auth/crear-cuenta" element={<CrearCuenta />} />
-          <Route
-            path="/auth/recuperar-password"
-            element={<RecuperarPassword />}
-          />
-          <Route
-            path="/auth/comprobar-cuenta/:token"
-            element={<ComprobarCuenta />}
-          />
-          <Route
-            path="/auth/nuevo-password/:token"
-            element={<NuevoPassword />}
-          />
-          {/* //TODO: CREAR RUTA PARA QUE CREE UNA EMPRESA */}
-        </Route>
+      <AuthProvider>
+        <Routes>
+          <Route element={<PublicLayout />}>
+            <Route path="/auth/iniciar-sesion" element={<Login />} />
+            <Route path="/auth/crear-cuenta" element={<CrearCuenta />} />
+            <Route
+              path="/auth/recuperar-password"
+              element={<RecuperarPassword />}
+            />
+            <Route
+              path="/auth/comprobar-cuenta/:token"
+              element={<ComprobarCuenta />}
+            />
+            <Route
+              path="/auth/nuevo-password/:token"
+              element={<NuevoPassword />}
+            />
+            <Route path="/auth/crear-empresa" element={<CrearEmpresa />} />
+          </Route>
 
-        <Route path="/" element={<AuthLayout />}>
-          <Route index element={<Inicio />} />
-        </Route>
+          <Route path="/" element={<AuthLayout />}>
+            <Route index element={<Inicio />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
