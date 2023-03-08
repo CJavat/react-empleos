@@ -1,21 +1,65 @@
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
+import clienteAxios from "../helpers/configAxios";
+import useAuth from "../hooks/useAuth";
+
+import Forbidden from "../components/Forbidden";
+import Alerta from "../components/Alerta";
+
 const AuthLayout = () => {
-  //TODO: COMPROBAR SI EL USUARIO YA ESTA REGISTRADO, SINO REGRESARLO A LA PAGINA DE INICIO DE SESIÓN.
-  //TODO: HACER CONSULTA PARA DECODIFICAR EL JWT QUE ESTA EN EL LOCAL STORAGE, Y QUE DEVUELVA LOS DATOS DEL USUARIO.
-  //TODO: SI DEVUELVE FALSE, PUES REGRESARLO AL LAYOUT PUBLICO.
+  //* Obtener variables del provider.
+  const { usuarioLogeado, setUsuarioLogeado } = useAuth();
 
-  //TODO: HACER UN CONTEXT Y AHI AGREGAR TODOS LOS DATOS DEL USUARIO QUE ME DEVUELVE LA API.
+  //* Declaración de States.
+  const [alerta, setAlerta] = useState("");
+  const [errorAlerta, setErrorAlerta] = useState(false);
+  const [errorConfirmacion, setErrorConfirmacion] = useState(true);
+  const [errorEmpresaCreada, setErrorEmpresaCreada] = useState(true);
 
-  //TODO: SI confirmado = 0 regresarlo a la pagina de inicio
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const comprobarUsuario = async () => {
+        const respuesta = await clienteAxios.post(
+          `/auth/decodificar-token/${token}`
+        );
+
+        if (respuesta.data.confirmado === 1) setErrorConfirmacion(false);
+        if (respuesta.data.empresaCreada === 1) setErrorEmpresaCreada(false);
+
+        setUsuarioLogeado(respuesta.data);
+      };
+      comprobarUsuario();
+    } catch (error) {
+      console.log(error.response.data.message);
+      setAlerta(error);
+      setErrorAlerta(true);
+    }
+  }, []);
+
+  //TODO: PONER UN SPINNER DE CARGAR, PARA EVITAR QUE SE VEAN ERRORES POR NO HABER TERMINADO DE HACER LA CONSULTA.
+
   return (
-    <main className="container w-full h-screen p-5 flex justify-center items-center">
-      {/* //TODO: Agregar Header */}
-      <div className="">
-        <Outlet />
-      </div>
-      {/* //TODO: Agregar Footer */}
-    </main>
+    <>
+      {alerta ? <Alerta mensaje={alerta} error={errorAlerta} /> : null}
+
+      {errorConfirmacion ? (
+        <Forbidden />
+      ) : errorEmpresaCreada ? (
+        <Forbidden />
+      ) : (
+        <main className="container w-full h-screen p-5 flex justify-center items-center">
+          {/* //TODO: AGREGAR UN HEADER */}
+          <div className="">
+            {/* //TODO: AGREGAR UN SIDEBAR */}
+            <Outlet />
+          </div>
+          {/* //TODO: AGREGAR UN FOOTER*/}
+        </main>
+      )}
+    </>
   );
 };
 

@@ -4,8 +4,6 @@ const Usuario = require("../models/Usuario.models");
 
 //! REGISTRAR UNA EMPRESA --
 const registrarEmpresa = async (req, res, next) => {
-  const { idUsuario } = req.params;
-
   const errors = validationResult(req);
 
   // Si hay errores.
@@ -13,19 +11,26 @@ const registrarEmpresa = async (req, res, next) => {
     return res.status(400).json({ msg: errors.array() });
   }
 
-  const esReclutador = await Empresa.findOne({
-    reclutador: idUsuario,
-  }).populate("reclutador");
+  const esReclutador = await Usuario.findById({
+    _id: req.body.reclutador,
+  });
 
-  if (esReclutador.reclutador.rol === "Empleado") {
+  if (esReclutador.rol === "Empleado") {
     return res.status(403).json({
       msg: "Los empledos no pueden registrar empresa, registrate como un Reclutador",
     });
   }
 
   const empresa = new Empresa(req.body);
+  const reclutador = await Usuario.findOne({
+    _id: req.body.reclutador,
+  });
 
-  if (empresa.reclutador)
+  if (empresa.reclutador) {
+    //* Confirmar que el usuario ya creó una empresa.
+    reclutador.empresaCreada = 1;
+    reclutador.save();
+
     try {
       empresa.save();
       res.json({ msg: "Empresa Registrada Correctamente" });
@@ -34,6 +39,7 @@ const registrarEmpresa = async (req, res, next) => {
         .status(400)
         .json({ msg: "Ocurrió un error al agregar la empresa" });
     }
+  }
 };
 
 //! MOSTRAR UNA EMPRESA POR SU ID --
@@ -64,6 +70,7 @@ const mostrarEmpresas = async (req, res, next) => {
 
 //! ACTUALIZAR DATOS DE LA EMPRESA MEDIANTE UN ID --
 const actualizarEmpresa = async (req, res, next) => {
+  //TODO: ACTUALIZAR, MANDAR ID DEL USUARIO Y EMPRESA POR EL BODY.
   const { idEmpresa, idUsuario } = req.params;
   const datosActualizados = req.body;
 

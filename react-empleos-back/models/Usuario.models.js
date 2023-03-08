@@ -26,7 +26,6 @@ const usuarioSchema = new Schema({
   },
   rol: {
     type: String,
-    required: true,
   },
   foto: {
     type: String,
@@ -40,7 +39,10 @@ const usuarioSchema = new Schema({
     type: Number,
     default: 0,
   },
-  //TODO: HACER UN CAMPO PARA PODER INDICAR SI LOS RECLUTADORES YA TIENEN AL MENOS UNA EMPRESA ASOCIADA
+  empresaCreada: {
+    type: Number,
+    default: 0,
+  },
 });
 
 // Método para hashear los passwords.

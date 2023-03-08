@@ -6,8 +6,9 @@ const router = express.Router();
 const {
   comprobarCuenta,
   olvidePassword,
-  comprobarToken,
   recuperarPassword,
+  comprobarToken,
+  decodificarToken,
 } = require("../controllers/auth.controllers");
 
 //! CONFIRMAR LA CUENTA --
@@ -23,6 +24,6 @@ router.post("/recuperar-password/:token", recuperarPassword);
 router.post("/comprobar-token/:token", comprobarToken);
 
 //! COMPROBAR TOKEN QUE VIENE DESDE EL FRONTEND --
-//TODO: AGREGAR LA RUTA, EL TOKEN VIENE DESDE EL BODY.
+router.post("/decodificar-token/:token", decodificarToken);
 
 module.exports = router;

@@ -40,7 +40,6 @@ const ComprobarCuenta = () => {
     try {
       comprobarToken();
     } catch (error) {
-      console.log("hola");
       setAlerta(error.response.data.msg);
       setError(true);
     }

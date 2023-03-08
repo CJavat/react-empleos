@@ -22,15 +22,6 @@ const CrearCuenta = () => {
     e.preventDefault();
 
     try {
-      if (nuevoUsuario.rol === "Reclutador") {
-        //TODO: AL FINAL SI SE HARÁ LA PETICIÓN, PERO PRIMERO SE DEBE CREAR EL NUEVO CAMPO EN EL MODELO.
-        //TODO: PARA QUE AL FINAL SE LE AGREGUE QUE NO TIENE EMPRESA REGISTRADA EL RECLUTADOR.
-        setDatosUsuario(nuevoUsuario);
-        setAlertaAtencion(true);
-        navigate("/auth/crear-empresa");
-        return;
-      }
-
       const resultado = await clienteAxios.post(
         "usuarios/registrar-usuario/",
         nuevoUsuario
@@ -41,8 +32,17 @@ const CrearCuenta = () => {
 
       setTimeout(() => {
         setAlerta("");
+
+        if (nuevoUsuario.rol === "Reclutador") {
+          setDatosUsuario({ ...nuevoUsuario, id: resultado.data.id });
+
+          setAlertaAtencion(true);
+          navigate("/auth/crear-empresa");
+          return;
+        }
+
         navigate("/auth/iniciar-sesion");
-      }, 5000);
+      }, 2000);
     } catch (error) {
       setAlerta(error.response.data.msg);
       setError(true);

@@ -14,7 +14,8 @@ const {
 
 //! REGISTRAR LOS DATOS DE LA EMPRESA --
 router.post(
-  "/registrar-empresa/:idUsuario",
+  "/registrar-empresa/",
+
   [
     body("empresa")
       .notEmpty()
@@ -22,13 +23,13 @@ router.post(
 
     body("pais")
       .isString()
-      .withMessage("Introduce puros letras")
+      .withMessage("País: Solo se aceptan letras")
       .notEmpty()
       .withMessage("El pais es obligatorio"),
 
     body("estado")
       .isString()
-      .withMessage("Introduce puros letras")
+      .withMessage("Estado: Introduce puros letras")
       .notEmpty()
       .withMessage("El estado es obligatorio"),
 

@@ -1,7 +1,11 @@
+import useAuth from "../hooks/useAuth";
+
 const Inicio = () => {
+  const { usuarioLogeado } = useAuth();
   return (
     <div>
-      <h1>Inicio</h1>
+      {/* //TODO: EMPEZAR A HACER ESTE LAYOUT */}
+      <h1>Inicio - HOLA: {usuarioLogeado.nombre}</h1>
     </div>
   );
 };

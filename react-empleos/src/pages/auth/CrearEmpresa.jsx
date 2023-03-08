@@ -1,14 +1,57 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import clienteAxios from "../../helpers/configAxios";
 import useAuth from "../../hooks/useAuth";
+
+import Alerta from "../../components/Alerta";
 
 const CrearEmpresa = () => {
   //* Declaracioón del navigate.
   const navigate = useNavigate();
 
+  //* Declaración del state.
+  const [nuevaEmpresa, setNuevaEmpresa] = useState({});
+  const [alerta, setAlerta] = useState([]);
+  const [errorAlerta, setErrorAlerta] = useState(false);
+
   //* Declaración del hook para el provider.
   const { datosUsuario, alertaAtencion } = useAuth();
-  console.log(datosUsuario);
-  //TODO: FALTA HACER LA LÓGICA DE AQUI
+
+  const almacenarDatos = async (e) => {
+    e.preventDefault();
+
+    setNuevaEmpresa({ ...nuevaEmpresa, reclutador: datosUsuario.id });
+
+    try {
+      const respuesta = await clienteAxios.post(
+        "/empresa/registrar-empresa",
+        nuevaEmpresa
+      );
+
+      setAlerta(respuesta.data.msg);
+      setErrorAlerta(false);
+
+      setTimeout(() => {
+        setAlerta("");
+        navigate("/auth/iniciar-sesion");
+      }, 5000);
+    } catch (error) {
+      setAlerta(error.response.data.msg);
+      setErrorAlerta(true);
+
+      setTimeout(() => {
+        setAlerta("");
+      }, 5000);
+    }
+  };
+
+  const guardarCambios = (e) => {
+    setNuevaEmpresa({
+      ...nuevaEmpresa,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return Object.keys(datosUsuario).length ? (
     <>
@@ -21,14 +64,28 @@ const CrearEmpresa = () => {
 
       {alertaAtencion ? (
         <p className="w-full text-blue-700 bg-yellow-400 font-bold text-center movilS:text-lg movilL:text-lg desktopL:text-5xl rounded-xl mt-2">
-          ¡Atención! - Tu cuenta no se puede crear hasta que no crees los datos
-          de la empresa tambien
+          ¡Atención! - Como eres reclutador, tienes que crear al menos 1
+          empresa.
         </p>
+      ) : null}
+
+      {alerta?.length ? (
+        typeof alerta === "string" ? (
+          <Alerta mensaje={alerta} error={errorAlerta} />
+        ) : (
+          alerta?.map((mostrarAlerta, index) => (
+            <Alerta
+              key={index}
+              mensaje={mostrarAlerta.msg}
+              error={errorAlerta}
+            />
+          ))
+        )
       ) : null}
 
       <form
         className="flex flex-col items-center my-5 gap-5"
-        /* onSubmit={} */
+        onSubmit={almacenarDatos}
       >
         <div className="w-5/6 lg:w-4/6 xl:w-3/6 flex flex-col items-center mx-11 gap-2">
           <div className="w-full flex items-center gap-1 movilL:gap-2 movilS:flex-wrap movilL:flex-nowrap">
@@ -37,7 +94,7 @@ const CrearEmpresa = () => {
               name="empresa"
               placeholder="Escribe el nombre de tu empresa"
               className="bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
-              /* onChange={} */
+              onChange={guardarCambios}
             />
           </div>
 
@@ -47,7 +104,7 @@ const CrearEmpresa = () => {
               name="pais"
               placeholder="Escribe el pais"
               className="bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
-              /* onChange={} */
+              onChange={guardarCambios}
             />
           </div>
 
@@ -57,7 +114,7 @@ const CrearEmpresa = () => {
               name="estado"
               placeholder="Escribe el estado"
               className="bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
-              /* onChange={} */
+              onChange={guardarCambios}
             />
           </div>
 
@@ -67,7 +124,7 @@ const CrearEmpresa = () => {
               name="ubicacion"
               placeholder="Escribe la ubicacion"
               className="bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
-              /* onChange={} */
+              onChange={guardarCambios}
             />
           </div>
 
@@ -77,11 +134,9 @@ const CrearEmpresa = () => {
               name="urlEmpresa"
               placeholder="Escribe la URL de tu empresa"
               className="bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
-              /* onChange={} */
+              onChange={guardarCambios}
             />
           </div>
-
-          {/* //TODO: ID DEL RECLUTADOR */}
         </div>
 
         <input

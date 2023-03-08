@@ -78,11 +78,11 @@ const login = async (req, res, next) => {
       return res.status(400).json({ msg: "El password es incorrecto." });
     }
 
-    const { _id, nombre, apellido } = usuario;
+    const { _id, nombre } = usuario;
 
     //* Generar el JWT.
     const token = jwt.sign(
-      { id: _id.toString(), nombre, apellido },
+      { id: _id.toString(), nombre, email },
       process.env.PALABRA_SECRETA,
       { expiresIn: "30d" }
     );
@@ -158,6 +158,7 @@ const registrarUsuario = async (req, res, next) => {
     });
     res.json({
       msg: "Usuario Creado Correctamente, Se envió un correo a tu email para que confirmes tu cuenta",
+      id: agregarUsuario._id,
     });
   } catch (error) {
     return res

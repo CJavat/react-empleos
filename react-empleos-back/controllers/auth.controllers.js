@@ -106,12 +106,32 @@ const comprobarToken = async (req, res, next) => {
 };
 
 //! COMPROBAR JWT Y DEVOLVER DATOS DEL USUARIO.
-//TODO: OBTENER EL TOKEN QUE VIENE DESDE EL FRONT, COMPROBARLO Y
-//TODO: REGRESAR LOS DATOS DEL USUARIO.
+const decodificarToken = async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    const tokenDecodificado = jwt.verify(token, process.env.PALABRA_SECRETA);
+    if (!tokenDecodificado) {
+      return res.status(404).json({ msg: "El token es inválido" });
+    }
+
+    const comprobarUsuario = await Usuario.findOne({
+      _id: tokenDecodificado.id,
+    });
+    if (!comprobarUsuario) {
+      return res.status(404).json({ msg: "El usuario no existe" });
+    }
+
+    res.json(comprobarUsuario);
+  } catch (error) {
+    res.status(400).json({ msg: "Ha ocurrido un error: " + error.message });
+  }
+};
 
 module.exports = {
   comprobarCuenta,
   olvidePassword,
-  comprobarToken,
   recuperarPassword,
+  comprobarToken,
+  decodificarToken,
 };
