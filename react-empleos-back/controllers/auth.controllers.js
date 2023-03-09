@@ -117,7 +117,7 @@ const decodificarToken = async (req, res) => {
 
     const comprobarUsuario = await Usuario.findOne({
       _id: tokenDecodificado.id,
-    });
+    }).select("-password -__v");
     if (!comprobarUsuario) {
       return res.status(404).json({ msg: "El usuario no existe" });
     }

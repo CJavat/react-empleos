@@ -8,7 +8,7 @@ export const Main = () => {
   return (
     <>
       <Header />
-      <main className="w-full h-screen flex flex-col justify-start items-center gap-2">
+      <main className="w-full  flex flex-col justify-start items-center gap-2">
         <Sidebar />
 
         <Outlet />

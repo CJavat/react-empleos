@@ -3,6 +3,7 @@ const Vacante = require("../models/Vacante.models");
 
 //* Validar formulario.
 const { validationResult } = require("express-validator");
+const { populate } = require("../models/Vacante.models");
 
 //! AGREGAR UNA VACANTE A LA DB --
 const agregarVacante = async (req, res, next) => {
@@ -42,7 +43,10 @@ const mostrarVacante = async (req, res, next) => {
 
 //! MOSTRAR TODAS LAS VACANTES QUE HAY EN LA DB --
 const mostrarVacantes = async (req, res, next) => {
-  const vacantes = await Vacante.find();
+  const vacantes = await Vacante.find().populate({
+    path: "empresa",
+    populate: { path: "reclutador", select: "email nombre telefono" },
+  });
 
   if (!vacantes) {
     return res.status(404).json({ msg: "No hay ninguna vacante" });
