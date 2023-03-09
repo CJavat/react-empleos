@@ -5,7 +5,7 @@ const Vacantes = (props) => {
   const { _id, nombre, salario, empresa } = props.vacante;
 
   return (
-    <div className="flex flex-col justify-center gap-3 px-3 py-4 border rounded-xl border-blue-600 w-5/6">
+    <div className="flex flex-col justify-center gap-3 px-3 py-4 border rounded-xl border-blue-600 w-5/6 tablet:w-4/6 laptop:w-3/6 desktop:w-2/6 desktopL:w-1/6">
       <p className="self-center font-bold text-blue-600 text-3xl">{nombre}</p>
       <p>Salario: {formatearDinero(salario)}</p>
       <p>{empresa.empresa}</p>
