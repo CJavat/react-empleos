@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import clienteAxios from "../../helpers/configAxios";
@@ -14,14 +14,18 @@ const CrearEmpresa = () => {
   const [nuevaEmpresa, setNuevaEmpresa] = useState({});
   const [alerta, setAlerta] = useState([]);
   const [errorAlerta, setErrorAlerta] = useState(false);
+  let reclutador = "";
 
   //* Declaración del hook para el provider.
   const { datosUsuario, alertaAtencion } = useAuth();
 
+  useEffect(() => {
+    reclutador = datosUsuario.id;
+    setNuevaEmpresa({ ...nuevaEmpresa, reclutador });
+  }, []);
+
   const almacenarDatos = async (e) => {
     e.preventDefault();
-
-    setNuevaEmpresa({ ...nuevaEmpresa, reclutador: datosUsuario.id });
 
     try {
       const respuesta = await clienteAxios.post(
@@ -37,6 +41,7 @@ const CrearEmpresa = () => {
         navigate("/auth/iniciar-sesion");
       }, 5000);
     } catch (error) {
+      console.log(error);
       setAlerta(error.response.data.msg);
       setErrorAlerta(true);
 
@@ -142,7 +147,7 @@ const CrearEmpresa = () => {
         <input
           type="submit"
           value="Crear Cuenta"
-          className="bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
+          className="cursor-pointer bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
         />
       </form>
     </>

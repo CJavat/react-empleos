@@ -7,6 +7,7 @@ const AuthProvider = ({ children }) => {
   const [datosUsuario, setDatosUsuario] = useState({});
   const [alertaAtencion, setAlertaAtencion] = useState(false);
   const [usuarioLogeado, setUsuarioLogeado] = useState({});
+  const [cargando, setCargando] = useState(true);
 
   return (
     <AuthContext.Provider
@@ -14,9 +15,11 @@ const AuthProvider = ({ children }) => {
         datosUsuario,
         alertaAtencion,
         usuarioLogeado,
+        cargando,
         setDatosUsuario,
         setAlertaAtencion,
         setUsuarioLogeado,
+        setCargando,
       }}
     >
       {children}

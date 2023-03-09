@@ -15,7 +15,6 @@ const RecuperarPassword = () => {
   const enviarToken = async (e) => {
     e?.preventDefault();
     try {
-      console.log("hola");
       const respuesta = await clienteAxios.post("/auth/olvide-password", {
         email,
       });
@@ -69,7 +68,7 @@ const RecuperarPassword = () => {
             name="email"
             type="text"
             placeholder="Email"
-            className="w-full bg-black border-2 text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
+            className="cursor-pointer w-full bg-black border-2 text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
             onChange={almacenarEmail}
           />
         </div>
@@ -77,7 +76,7 @@ const RecuperarPassword = () => {
         <input
           type="submit"
           value="Recuperar Contraseña"
-          className="bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
+          className="cursor-pointer bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
         />
       </form>
 

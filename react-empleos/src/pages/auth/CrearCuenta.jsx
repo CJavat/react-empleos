@@ -141,7 +141,7 @@ const CrearCuenta = () => {
         <input
           type="submit"
           value="Crear Cuenta"
-          className="bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
+          className="cursor-pointer bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
         />
       </form>
       <div className="flex justify-around w-full text-center my-6 desktopL:my-12 tablet:text-xl desktopL:text-3xl">
