@@ -5,11 +5,13 @@ const router = express.Router();
 const { body } = require("express-validator");
 
 const {
+  subirLogoEmpresa,
   registrarEmpresa,
   mostrarEmpresa,
   mostrarEmpresas,
   actualizarEmpresa,
   eliminarEmpresa,
+  mostrarLogo,
 } = require("../controllers/empresa.controllers");
 
 //! REGISTRAR LOS DATOS DE LA EMPRESA --
@@ -47,6 +49,7 @@ router.get("/mostrar-empresas", mostrarEmpresas);
 //! ACTUALIZAR DATOS DE UNA EMPRESA --
 router.put(
   "/actualizar-empresa/:idEmpresa&:idUsuario",
+  subirLogoEmpresa,
   [
     body("empresa")
       .notEmpty()

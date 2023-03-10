@@ -21,6 +21,10 @@ const empresaSchema = new Schema({
     type: String,
     trim: true,
   },
+  logoEmpresa: {
+    type: String,
+    default: "",
+  },
   urlEmpresa: {
     type: String,
   },

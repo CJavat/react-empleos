@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
+const path = require("path");
 const db = require("./config/db");
 
 //! RUTAS.
@@ -20,8 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 //! Habilitar Carpeta Pública.
-app.use(express.static("uploads"));
-app.use(express.static("docs"));
+app.use(express.static(path.join("uploads/pic")));
 
 // Rutas.
 app.use("/api/usuarios", routerUsuarios);

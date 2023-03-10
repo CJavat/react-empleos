@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="bg-blue-800 h-full px-2 flex movilS:justify-between movilS: desktop:justify-around">
+    <div className="bg-blue-800 h-fit py-1 px-2 flex movilS:justify-between movilS: desktop:justify-around">
       <p className="text-gray-500 text-center flex flex-col justify-center movilS:text-sm flex-1">
         <span className="text-white">CopyRight&#169; 2023 </span> Todos los
         derechos reservados

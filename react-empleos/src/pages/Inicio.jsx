@@ -32,7 +32,7 @@ const Inicio = () => {
             VACANTES
           </span>
         </p>
-        {/* MOSTRAR TODOS LOS EMPLEOS */}
+
         {vacantes.map((vacante) => (
           <Vacantes key={vacante._id} vacante={vacante} />
         ))}

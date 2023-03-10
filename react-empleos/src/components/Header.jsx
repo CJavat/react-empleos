@@ -30,7 +30,9 @@ const Header = () => {
 
   return (
     <header className="bg-blue-800 h-20 px-2 flex justify-between items-center w-full desktop:justify-around">
-      <img src={logo} alt="Logo reactEmpleos" className="" />
+      <Link to="/">
+        <img src={logo} alt="Logo reactEmpleos" className="" />
+      </Link>
 
       <div className="flex gap-3 items-center justify-center movilS:flex-col tablet:flex-row">
         <Link

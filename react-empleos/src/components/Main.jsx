@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 
 export const Main = () => {
   return (
-    <>
+    <div className="flex flex-col desktopL:h-screen">
       <Header />
 
       <main className="w-full h-full flex flex-col justify-start items-center gap-2 mb-11">
@@ -17,6 +17,6 @@ export const Main = () => {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 };

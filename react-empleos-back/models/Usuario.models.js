@@ -29,6 +29,7 @@ const usuarioSchema = new Schema({
   },
   foto: {
     type: String,
+    default: "",
   },
   cv: {
     type: String,

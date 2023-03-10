@@ -41,15 +41,13 @@ const AuthLayout = () => {
         if (respuesta.data.rol === "Empleado") {
           setEsEmpleado(true);
         }
-
-        setCargando(false);
       };
       comprobarUsuario();
     } catch (error) {
-      setCargando(false);
       setAlerta(error);
       setErrorAlerta(true);
     }
+    setCargando(false);
   }, []);
 
   {
@@ -59,12 +57,12 @@ const AuthLayout = () => {
       <>
         {alerta ? <Alerta mensaje={alerta} error={errorAlerta} /> : null}
         {errorConfirmacion ? (
-          <Forbidden />
+          <Forbidden alerta={false} />
         ) : errorEmpresaCreada ? (
           esEmpleado ? (
             <Main />
           ) : (
-            <Forbidden />
+            <Forbidden alerta={true} />
           )
         ) : (
           <Main />

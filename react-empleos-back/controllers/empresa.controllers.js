@@ -1,6 +1,44 @@
+const { unlink } = require("node:fs/promises");
+
+const multer = require("multer");
+const shortid = require("shortid");
 const { validationResult } = require("express-validator");
+
 const Empresa = require("../models/Empresa.models");
 const Usuario = require("../models/Usuario.models");
+
+//! MULTER - SUBIR ARCHIVOS ---------------------------------
+const configuracionMulterArchivo = {
+  storage: (fileStorage = multer.diskStorage({
+    destination: (req, res, cb) => {
+      cb(null, __dirname + "/../uploads/pic");
+    },
+    filename: (req, file, cb) => {
+      const extension = file.mimetype.split("/")[1];
+      cb(null, `${shortid.generate()}.${extension}`);
+    },
+  })),
+  fileFilter(req, file, cb) {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+      cb(null, true);
+    } else {
+      cb(new Error("Formato No Válido. Sube un archivo JPG o PNG"));
+    }
+  },
+};
+
+const uploadArchivos = multer(configuracionMulterArchivo).single("logoEmpresa");
+
+const subirLogoEmpresa = (req, res, next) => {
+  uploadArchivos(req, res, function (error) {
+    if (error) {
+      return res.json({ msg: error });
+    }
+
+    next();
+  });
+};
+//! -----------------------------------------------------------------
 
 //! REGISTRAR UNA EMPRESA --
 const registrarEmpresa = async (req, res, next) => {
@@ -96,9 +134,27 @@ const actualizarEmpresa = async (req, res, next) => {
       return res.status(404).json({ msg: "No se ha encontrado la empresa" });
     }
 
+    if (req.file?.filename) {
+      datosActualizados.logoEmpresa = req.file.filename;
+
+      //* Eliminar la vieja imagen.
+      if (empresaEncontrada.logoEmpresa) {
+        //* Elimina solo si cambio de imagen.
+        await unlink(
+          `${__dirname}/../uploads/pic/${empresaEncontrada.logoEmpresa}`
+        );
+      }
+    }
+
+    //* Para que no se elimine la referencia del logo si no agrego imagen.
+    if (!req.file?.filename) {
+      datosActualizados.logoEmpresa = empresaEncontrada.logoEmpresa;
+    }
+
     await Empresa.findByIdAndUpdate(
       { _id: idEmpresa, reclutador: idUsuario },
       datosActualizados,
+
       { new: true }
     );
 
@@ -133,6 +189,7 @@ const eliminarEmpresa = async (req, res, next) => {
 
 //! EXPORTAR CONTROLADORES --
 module.exports = {
+  subirLogoEmpresa,
   registrarEmpresa,
   mostrarEmpresa,
   mostrarEmpresas,
