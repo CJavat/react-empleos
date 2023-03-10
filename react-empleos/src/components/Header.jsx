@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 import logo from "../assets/ReactEmpleos.svg";
 import logoCompleto from "../assets/reactEmpleos-logo-completo.svg";
 
 const Header = () => {
+  const navigate = useNavigate();
   const {
     usuarioLogeado,
     setDatosUsuario,
@@ -21,6 +22,7 @@ const Header = () => {
       setDatosUsuario({});
       setAlertaAtencion(false);
       setCargando(true);
+      navigate("/auth/iniciar-sesion");
     } catch (error) {
       console.log(error);
     }

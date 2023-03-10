@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import CrearEmpresa from "./pages/auth/CrearEmpresa";
 import { AuthProvider } from "./context/AuthProvider";
 import Vacante from "./components/Vacante";
+import Empresa from "./pages/Empresa";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
           <Route path="/" element={<AuthLayout />}>
             <Route index element={<Inicio />} />
             <Route path="/mostrar-vacante/:id" element={<Vacante />} />
+
+            <Route path="/empresa/:id" element={<Empresa />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
