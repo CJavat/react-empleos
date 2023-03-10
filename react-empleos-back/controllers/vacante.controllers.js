@@ -31,7 +31,10 @@ const agregarVacante = async (req, res, next) => {
 const mostrarVacante = async (req, res, next) => {
   const { idVacante } = req.params;
   const vacanteEncontrada = await Vacante.findById({ _id: idVacante }).populate(
-    "empresa"
+    {
+      path: "empresa",
+      populate: { path: "reclutador", select: "email nombre telefono" },
+    }
   );
 
   if (!vacanteEncontrada) {
