@@ -17,6 +17,7 @@ import NuevoPassword from "./components/NuevoPassword";
 
 //* PAGES
 import Inicio from "./pages/Inicio";
+import MiPerfil from "./pages/MiPerfil";
 import NotFound from "./pages/NotFound";
 
 //* USUARIO
@@ -26,14 +27,14 @@ import EditarUsuario from "./pages/EditarUsuario";
 //* VACANTES
 import Vacante from "./components/Vacante";
 import EditarVacante from "./pages/EditarVacante";
+import VerVacantes from "./pages/VerVacantes";
 
 //* EMPRESA
 import CrearEmpresa from "./pages/auth/CrearEmpresa";
 import EditarEmpresa from "./pages/EditarEmpresa";
 import VerEmpresas from "./pages/VerEmpresas";
 import VerEmpresa from "./pages/VerEmpresa";
-import MiEmpresa from "./components/MiEmpresa";
-import VerVacantes from "./pages/VerVacantes";
+import MiEmpresa from "./pages/MiEmpresa";
 
 function App() {
   return (
@@ -60,27 +61,23 @@ function App() {
 
           <Route path="/" element={<AuthLayout />}>
             <Route index element={<Inicio />} />
-
+            <Route path="/mi-perfil" element={<MiPerfil />} />
+            <Route path="/mi-empresa" element={<MiEmpresa />} />
             <Route path="/usuario/perfil/:id" element={<Usuario />} />
             <Route
               path="/usuario/editar/:id"
               element={<EditarUsuario />} /* //TODO: FALTA POR HACER */
             />
-
             <Route path="/ver-vacantes" element={<VerVacantes />} />
             <Route path="/vacante/mostrar-vacante/:id" element={<Vacante />} />
-            <Route
+            {/* <Route
               path="/vacante/editar-vacante/:id"
               element={<EditarVacante />}
-            />
-
+            /> */}
             <Route path="/ver-empresas" element={<VerEmpresas />} />
             <Route path="/empresa/:id" element={<VerEmpresa />} />
-            <Route path="/mi-empresa" element={<MiEmpresa />} />
-            <Route
-              path="/empresa/editar/:id"
-              element={<EditarEmpresa />} /* //TODO: FALTA POR HACER */
-            />
+            <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />
+            //TODO: FALTA POR HACER
           </Route>
 
           <Route path="*" element={<NotFound />} />

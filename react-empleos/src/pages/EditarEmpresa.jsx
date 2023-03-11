@@ -90,7 +90,7 @@ const EditarEmpresa = () => {
         </p>
 
         <form
-          className="flex flex-col items-center my-5 gap-5"
+          className="w-full flex flex-col items-center my-5 gap-5"
           onSubmit={editarDatos}
         >
           <div className="w-5/6 lg:w-4/6 xl:w-3/6 flex flex-col items-center mx-11 gap-2">
@@ -150,14 +150,19 @@ const EditarEmpresa = () => {
             </div>
           </div>
 
-          <div className="w-full flex items-center gap-1 movilL:gap-2 movilS:flex-wrap movilL:flex-nowrap">
-            <input type="file" name="logoEmpresa" onChange={leerLogo} />
+          <div className="w-full flex justify-center px-4">
+            <input
+              type="file"
+              name="logoEmpresa"
+              onChange={leerLogo}
+              className="file:flex tablet:file:inline w-fit file:rounded-full file:font-bold file:border-indigo-600 file:bg-indigo-600 file:text-white hover:file:bg-white hover:text-indigo-600"
+            />
           </div>
 
           <input
             type="submit"
             value="Actualizar Empresa"
-            className="cursor-pointer bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 tablet:px-2 tablet:py-1 movilS:w-11/12 tablet:w-8/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
+            className="self-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-gray-700 hover:bg-white"
           />
         </form>
       </>

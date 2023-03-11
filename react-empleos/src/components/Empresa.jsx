@@ -28,7 +28,6 @@ const Empresa = ({ empresa }) => {
   return (
     <div className="flex flex-col justify-center items-center">
       <h2 className="flex flex-col items-center text-center movilS:text-3xl tablet:text-6xl my-2 font-bold text-blue-600">
-        {/* //TODO: ESTO SE TERMINA DESPUES DE TERMINAR LO DE AGREGARLE MI EMPRESA AL USUARIO LOGEADO. */}
         {esMiEmpresa ? (
           <span className="bg-indigo-500 text-white ml-3 mt-1 top-0 text-xs font-bold rounded-xl px-2 py-1 uppercase">
             Propietario
@@ -64,7 +63,6 @@ const Empresa = ({ empresa }) => {
         </div>
 
         <div className="flex flex-col justify-center items-center w-full tablet:justify-end">
-          {/* //TODO: MODIFICAR PARA QUE EL TAMAÑO DEL LOGO SE VEA CON UN SOLO TAMAÑO EN TODOS */}
           {logoEmpresa ? (
             <img
               src={`http://localhost:5000/${logoEmpresa}`}

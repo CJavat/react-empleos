@@ -27,9 +27,10 @@ const Inicio = () => {
       <Spinner />
     ) : (
       <div className="w-full flex flex-col justify-center items-center gap-5">
-        <p className="flex flex-col text-center movilS:text-sm movilL:text-lg tablet:text-3xl desktopL:text-5xl">
-          <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-6xl desktopL:text-9xl">
-            VACANTES
+        <p className="flex justify-center items-end text-center movilS:text-2xl movilL:text-3xl tablet:text-6xl desktopL:text-5xl">
+          react
+          <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-7xl desktopL:text-9xl">
+            Empleos
           </span>
         </p>
 

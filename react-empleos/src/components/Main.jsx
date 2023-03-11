@@ -9,7 +9,7 @@ export const Main = () => {
   return (
     <div className="flex flex-col justify-between min-h-screen ">
       <Header />
-      <main className="w-full h-full flex-1 flex flex-col justify-start items-center gap-2 mb-11 laptop:mb-36">
+      <main className="w-full h-full flex-1 flex flex-col justify-start items-center gap-2 mb-5">
         <Sidebar />
         <Outlet />
       </main>

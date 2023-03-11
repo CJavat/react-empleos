@@ -1,13 +1,26 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import formatearDinero from "../helpers/formatearDinero";
 
 const Vacantes = (props) => {
   const { _id, nombre, salario, empresa } = props.vacante;
 
+  const [hayLogo, setHayLogo] = useState(false);
+  const [rutaLogo, setRutaLogo] = useState("");
+
+  useEffect(() => {
+    if (empresa?.logoEmpresa.length > 0) {
+      setRutaLogo(`http://localhost:5000/${empresa?.logoEmpresa}`);
+      setHayLogo(true);
+    } else {
+      setHayLogo(false);
+    }
+  }, []);
+
   return (
-    <div className="flex flex-col justify-center gap-3 px-7 py-4 border rounded-xl border-blue-600 w-5/6 tablet:w-4/6 laptop:w-3/6 desktop:w-2/6 desktopL:w-1/6">
-      {/* //TODO: FALTA ACOMODAR LOS ESTILOS DE ESTE CONTENEDOR Y DEL PADRE */}
-      <div className="flex flex-col justify-center gap-3 px-7 py-4 w-5/6 tablet:w-4/6 laptop:w-3/6 desktop:w-2/6 desktopL:w-1/6">
+    //TODO: FALTA HACERLO EN MODO LAPTOP, DESKTOP Y DESKTOP-L
+    <div className="flex movilS:flex-col tablet:flex-row justify-center items-center gap-3 px-7 py-5 border rounded-xl border-blue-600 h-fit movilS:w-11/12 desktop:w-6/12">
+      <div className="flex flex-col justify-center gap-3 w-full">
         <p className="self-center font-bold text-blue-600 text-3xl">{nombre}</p>
         <p>
           Salario: <span className="font-bold">{formatearDinero(salario)}</span>
@@ -22,12 +35,11 @@ const Vacantes = (props) => {
           to={`/vacante/mostrar-vacante/${_id}`}
           className="border-2 rounded-2xl w-fit py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-gray-700 hover:bg-white"
         >
-          Más Info
+          Más Información
         </Link>
       </div>
 
-      {/* //TODO: FALTA AGREGAR QUE SE VEA EL LOGO DE LA EMPRESA QUE CREO LA VACANTE */}
-      {/* <div className="flex flex-col justify-center items-center w-full tablet:justify-end">
+      <div className="flex flex-col justify-center items-center w-full tablet:justify-end">
         {hayLogo ? (
           <img
             src={rutaLogo}
@@ -39,16 +51,7 @@ const Vacantes = (props) => {
             NO HAY UN LOGO DISPONIBLE
           </p>
         )}
-
-        {empresa.urlEmpresa ? (
-          <p className="my-5 font-bold text-lg text-center">
-            Visitanos en:{" "}
-            <span className="block text-blue-600">{empresa.urlEmpresa}</span>
-          </p>
-        ) : (
-          <p className="text-red-600">La URL de la página no existe</p>
-        )}
-      </div> */}
+      </div>
     </div>
   );
 };
