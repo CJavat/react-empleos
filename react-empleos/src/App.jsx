@@ -25,12 +25,15 @@ import EditarUsuario from "./pages/EditarUsuario";
 
 //* VACANTES
 import Vacante from "./components/Vacante";
+import EditarVacante from "./pages/EditarVacante";
 
 //* EMPRESA
 import CrearEmpresa from "./pages/auth/CrearEmpresa";
-import Empresa from "./pages/Empresa";
 import EditarEmpresa from "./pages/EditarEmpresa";
-import EditarVacante from "./pages/EditarVacante";
+import VerEmpresas from "./pages/VerEmpresas";
+import VerEmpresa from "./pages/VerEmpresa";
+import MiEmpresa from "./components/MiEmpresa";
+import VerVacantes from "./pages/VerVacantes";
 
 function App() {
   return (
@@ -64,13 +67,16 @@ function App() {
               element={<EditarUsuario />} /* //TODO: FALTA POR HACER */
             />
 
+            <Route path="/ver-vacantes" element={<VerVacantes />} />
             <Route path="/vacante/mostrar-vacante/:id" element={<Vacante />} />
             <Route
               path="/vacante/editar-vacante/:id"
               element={<EditarVacante />}
             />
 
-            <Route path="/empresa/:id" element={<Empresa />} />
+            <Route path="/ver-empresas" element={<VerEmpresas />} />
+            <Route path="/empresa/:id" element={<VerEmpresa />} />
+            <Route path="/mi-empresa" element={<MiEmpresa />} />
             <Route
               path="/empresa/editar/:id"
               element={<EditarEmpresa />} /* //TODO: FALTA POR HACER */

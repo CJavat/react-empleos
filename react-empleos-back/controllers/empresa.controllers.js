@@ -98,7 +98,7 @@ const mostrarEmpresa = async (req, res, next) => {
 
 //! MOSTRAR TODAS LAS EMPRESAS --
 const mostrarEmpresas = async (req, res, next) => {
-  const empresas = await Empresa.find().select("-__v");
+  const empresas = await Empresa.find().populate("reclutador").select("-__v");
   if (!empresas) {
     return res.status(404).json({ msg: "No hay empresas registradas" });
   }

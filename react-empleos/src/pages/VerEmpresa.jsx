@@ -4,9 +4,7 @@ import Spinner from "../components/Spinner";
 import clienteAxios from "../helpers/configAxios";
 import useAuth from "../hooks/useAuth";
 
-import logoEstatico from "../assets/github-logo.png";
-
-const Empresa = () => {
+const VerEmpresa = () => {
   const { cargando, setCargando, usuarioLogeado } = useAuth();
 
   const [empresa, setEmpresa] = useState({});
@@ -32,6 +30,7 @@ const Empresa = () => {
           setHayLogo(true);
         }
       };
+
       mostrarEmpresa();
     } catch (error) {
       console.log(error);
@@ -117,16 +116,14 @@ const Empresa = () => {
           </div>
 
           <div className="flex flex-col justify-center items-center w-full tablet:justify-end">
-            {/* //TODO: COMPROBAR FOTO, SI NO HAY, PONER "NO HAY FOTO DISPONIBLE" DENTRO DEL CUADRO */}
-
             {hayLogo ? (
               <img
                 src={rutaLogo}
                 alt="logo estatico"
-                className="border-2 border-blue-600 w-4/6 rounded-lg object-contain"
+                className="border-2 border-blue-600 rounded-lg object-contain movilS:w-44 movilL:w-56 laptop:w-72 desktop:w-80 desktopL:w-96 movilS:h-44 movilL:h-56 laptop:h-72 desktop:h-80 desktopL:h-96"
               />
             ) : (
-              <p className="text-red-600 border-blue-600 border-2 w-4/6 px-7 py-7 rounded-lg">
+              <p className="flex justify-center items-center font-bold text-red-600 border-blue-600 border-2 px-7 py-7 rounded-lg movilS:w-44 movilL:w-56 laptop:w-72 desktop:w-80 desktopL:w-96 movilS:h-44 movilL:h-56 laptop:h-72 desktop:h-80 desktopL:h-96">
                 NO HAY UN LOGO DISPONIBLE
               </p>
             )}
@@ -134,7 +131,9 @@ const Empresa = () => {
             {empresa.urlEmpresa ? (
               <p className="my-5 font-bold text-lg text-center">
                 Visitanos en:{" "}
-                <span className="text-blue-600">{empresa.urlEmpresa}</span>
+                <span className="block text-blue-600">
+                  {empresa.urlEmpresa}
+                </span>
               </p>
             ) : (
               <p className="text-red-600">La URL de la página no existe</p>
@@ -146,4 +145,4 @@ const Empresa = () => {
   }
 };
 
-export default Empresa;
+export default VerEmpresa;

@@ -11,7 +11,8 @@ import Spinner from "../components/Spinner";
 
 const AuthLayout = () => {
   //* Obtener variables del provider.
-  const { cargando, setCargando, setUsuarioLogeado } = useAuth();
+  const { cargando, setCargando, setUsuarioLogeado, obtenerEmpresas } =
+    useAuth();
 
   //* Declaración de States.
   const [alerta, setAlerta] = useState("");
@@ -42,7 +43,9 @@ const AuthLayout = () => {
           setEsEmpleado(true);
         }
       };
+
       comprobarUsuario();
+      obtenerEmpresas();
     } catch (error) {
       setAlerta(error);
       setErrorAlerta(true);
@@ -57,7 +60,7 @@ const AuthLayout = () => {
       <>
         {alerta ? <Alerta mensaje={alerta} error={errorAlerta} /> : null}
         {errorConfirmacion ? (
-          <Forbidden alerta={false} />
+          <Forbidden alerta={true} />
         ) : errorEmpresaCreada ? (
           esEmpleado ? (
             <Main />

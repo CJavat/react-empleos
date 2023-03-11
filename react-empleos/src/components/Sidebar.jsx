@@ -16,6 +16,12 @@ const Sidebar = () => {
         Ver Vacantes
       </Link>
       <Link
+        to="/ver-empresas"
+        className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
+      >
+        Ver Empresas
+      </Link>
+      <Link
         to="/mi-empresa"
         className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
       >

@@ -11,7 +11,6 @@ const {
   mostrarEmpresas,
   actualizarEmpresa,
   eliminarEmpresa,
-  mostrarLogo,
 } = require("../controllers/empresa.controllers");
 
 //! REGISTRAR LOS DATOS DE LA EMPRESA --
