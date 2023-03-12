@@ -3,6 +3,7 @@ import clienteAxios from "../helpers/configAxios";
 import useAuth from "../hooks/useAuth";
 import Iframe from "react-iframe";
 import Spinner from "../components/Spinner";
+import { Link } from "react-router-dom";
 
 const MiPerfil = () => {
   const { cargando, usuarioLogeado, setCargando } = useAuth();
@@ -10,8 +11,6 @@ const MiPerfil = () => {
   const [miUsuario, setMiUsuario] = useState({});
 
   useEffect(() => {
-    console.log(usuarioLogeado._id);
-
     try {
       setCargando(true);
       const obtenerMiPerfil = async () => {
@@ -19,7 +18,6 @@ const MiPerfil = () => {
           `/usuarios/mostrar-usuario/${usuarioLogeado._id}`
         );
         setMiUsuario(await respuesta.data);
-        console.log(await miUsuario);
       };
       obtenerMiPerfil();
     } catch (error) {}
@@ -60,14 +58,36 @@ const MiPerfil = () => {
           </p>
 
           <p className="flex items-center mt-1 gap-2">
-            CV:{" "}
-            <a
-              href={`http://localhost:5000/${miUsuario?.cv}`}
-              target="_blank"
-              className="font-bold py-2 px-3 border-2 rounded-lg border-none bg-indigo-600 text-white hover:text-indigo-600 hover:bg-white"
-            >
-              Ver Mi CV
-            </a>
+            {miUsuario.rol === "Empleado" ? (
+              <>
+                {miUsuario?.cv ? (
+                  <>
+                    CV:{" "}
+                    <a
+                      href={`http://localhost:5000/${miUsuario?.cv}`}
+                      target="_blank"
+                      className="font-bold py-2 px-3 border-2 rounded-lg border-none bg-indigo-600 text-white hover:text-indigo-600 hover:bg-white"
+                    >
+                      Ver Mi CV
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    CV:{" "}
+                    <span className="font-bold text-gray-600">
+                      No tienes un CV guardado
+                    </span>
+                  </>
+                )}
+              </>
+            ) : (
+              <Link
+                to={`/mi-empresa`}
+                className="font-bold py-2 px-3 border-2 rounded-lg border-none bg-indigo-600 text-white hover:text-indigo-600 hover:bg-white"
+              >
+                Ver Mi Empresa
+              </Link>
+            )}
           </p>
 
           {/* //TODO: ES UN LINK, MANDARLO A LA PAGINA DE EDICION DE USUARIO */}

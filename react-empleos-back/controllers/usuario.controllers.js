@@ -181,35 +181,35 @@ const obtenerUsuario = async (req, res) => {
 
 const editarCuenta = async (req, res, next) => {
   const usuario = req.body;
+  const { idCuenta } = req.params;
 
-  const encontrarUsuario = await Usuario.findOne(req.params);
+  const encontrarUsuario = await Usuario.findById(idCuenta);
+
   if (!encontrarUsuario) {
     return res.status(404).json({ msg: "El usuario no existe" });
   }
 
   try {
-    //TODO: CAMBIARLO A OTRA RUTA, DONDE SE VAN A AGREGAR LOS DATOS FALTANTES.
-    // if (req.files?.foto) {
-    //   usuario.foto = req.files.foto[0].filename;
-    //TODO: ARREGLAR ERROR
-    //   //* Eliminar la vieja imagen.
-    //   if (encontrarUsuario?.foto) {
-    //     //* Elimina solo si cambio de imagen.
-    //     await unlink(`${__dirname}/../uploads/pic/${encontrarUsuario?.foto}`);
-    //   }
-    // }
+    if (req.files?.foto) {
+      console.log(req?.files?.foto);
+      usuario.foto = req.files.foto[0].filename;
 
-    // if (req.files?.cv) {
-    //   usuario.cv = req.files.cv[0].filename;
+      //* Eliminar la vieja imagen.
+      if (encontrarUsuario?.foto) {
+        //* Elimina solo si cambio de imagen.
+        await unlink(`${__dirname}/../uploads/pic/${encontrarUsuario?.foto}`);
+      }
+    }
 
-    //   //* Eliminar la vieja imagen.
-    //   if (encontrarUsuario?.cv) {
-    //     //* Elimina solo si cambio de imagen.
-    //     console.log("entro");
-    //     await unlink(`${__dirname}/../uploads/docs/${encontrarUsuario?.cv}`);
-    //   }
-    // }
+    if (req.files?.cv) {
+      usuario.cv = req.files.cv[0].filename;
 
+      //* Eliminar la vieja imagen.
+      if (encontrarUsuario?.cv) {
+        //* Elimina solo si cambio de imagen.
+        await unlink(`${__dirname}/../uploads/docs/${encontrarUsuario?.cv}`);
+      }
+    }
     const resultado = await Usuario.findOneAndUpdate(
       { _id: req.params.idCuenta },
       usuario,
@@ -217,7 +217,6 @@ const editarCuenta = async (req, res, next) => {
         new: true,
       }
     );
-    console.log(resultado);
 
     res.json({ msg: "Usuario Actualizado Correctamente" });
   } catch (error) {
