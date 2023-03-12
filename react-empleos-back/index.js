@@ -22,6 +22,7 @@ app.use(cors());
 
 //! Habilitar Carpeta Pública.
 app.use(express.static(path.join("./uploads/pic")));
+app.use(express.static(path.join("./uploads/docs")));
 
 // Rutas.
 app.use("/api/usuarios", routerUsuarios);

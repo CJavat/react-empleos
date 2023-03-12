@@ -1,6 +1,7 @@
 const Usuario = require("../models/Usuario.models");
 const { comprobarCuenta } = require("../config/mailtrap");
 
+const { unlink } = require("node:fs/promises");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -131,15 +132,6 @@ const registrarUsuario = async (req, res, next) => {
   agregarUsuario = new Usuario(req.body);
 
   try {
-    //TODO: CAMBIARLO A OTRA RUTA, DONDE SE VAN A AGREGAR LOS DATOS FALTANTES.
-    //   if (req.files?.foto) {
-    //     agregarUsuario.foto = req.files.foto[0].filename;
-    //   }
-
-    //   if (req.files?.cv) {
-    //     agregarUsuario.cv = req.files.cv[0].filename;
-    //   }
-
     // Generar el token para despues guardarlo.
     const token = jwt.sign(
       { email: agregarUsuario.email, nombre: agregarUsuario.nombre },
@@ -196,9 +188,36 @@ const editarCuenta = async (req, res, next) => {
   }
 
   try {
-    await Usuario.findOneAndUpdate({ _id: req.params.idCuenta }, usuario, {
-      new: true,
-    });
+    //TODO: CAMBIARLO A OTRA RUTA, DONDE SE VAN A AGREGAR LOS DATOS FALTANTES.
+    // if (req.files?.foto) {
+    //   usuario.foto = req.files.foto[0].filename;
+    //TODO: ARREGLAR ERROR
+    //   //* Eliminar la vieja imagen.
+    //   if (encontrarUsuario?.foto) {
+    //     //* Elimina solo si cambio de imagen.
+    //     await unlink(`${__dirname}/../uploads/pic/${encontrarUsuario?.foto}`);
+    //   }
+    // }
+
+    // if (req.files?.cv) {
+    //   usuario.cv = req.files.cv[0].filename;
+
+    //   //* Eliminar la vieja imagen.
+    //   if (encontrarUsuario?.cv) {
+    //     //* Elimina solo si cambio de imagen.
+    //     console.log("entro");
+    //     await unlink(`${__dirname}/../uploads/docs/${encontrarUsuario?.cv}`);
+    //   }
+    // }
+
+    const resultado = await Usuario.findOneAndUpdate(
+      { _id: req.params.idCuenta },
+      usuario,
+      {
+        new: true,
+      }
+    );
+    console.log(resultado);
 
     res.json({ msg: "Usuario Actualizado Correctamente" });
   } catch (error) {
