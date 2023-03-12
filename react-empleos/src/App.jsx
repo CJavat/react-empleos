@@ -26,6 +26,7 @@ import EditarUsuario from "./pages/EditarUsuario";
 
 //* VACANTES
 import Vacante from "./components/Vacante";
+import CrearVacante from "./pages/CrearVacante";
 import EditarVacante from "./pages/EditarVacante";
 import VerVacantes from "./pages/VerVacantes";
 
@@ -64,20 +65,21 @@ function App() {
             <Route path="/mi-perfil" element={<MiPerfil />} />
             <Route path="/mi-empresa" element={<MiEmpresa />} />
             <Route path="/usuario/perfil/:id" element={<Usuario />} />
-            <Route
-              path="/usuario/editar/:id"
-              element={<EditarUsuario />} /* //TODO: FALTA POR HACER */
-            />
+            //TODO: FALTA POR HACER
+            <Route path="/usuario/editar/:id" element={<EditarUsuario />} />
+            //TODO: FALTA POR HACER
+            <Route path="/crear-vacante" element={<CrearVacante />} />
             <Route path="/ver-vacantes" element={<VerVacantes />} />
             <Route path="/vacante/mostrar-vacante/:id" element={<Vacante />} />
-            {/* <Route
+            //TODO: FALTA POR HACER
+            <Route
               path="/vacante/editar-vacante/:id"
               element={<EditarVacante />}
-            /> */}
+            />
             <Route path="/ver-empresas" element={<VerEmpresas />} />
             <Route path="/empresa/:id" element={<VerEmpresa />} />
-            <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />
             //TODO: FALTA POR HACER
+            <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

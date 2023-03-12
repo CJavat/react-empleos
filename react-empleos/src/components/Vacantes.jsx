@@ -18,7 +18,6 @@ const Vacantes = (props) => {
   }, []);
 
   return (
-    //TODO: FALTA HACERLO EN MODO LAPTOP, DESKTOP Y DESKTOP-L
     <div className="flex movilS:flex-col tablet:flex-row justify-center items-center gap-3 px-7 py-5 border rounded-xl border-blue-600 h-fit movilS:w-11/12 desktop:w-6/12">
       <div className="flex flex-col justify-center gap-3 w-full">
         <p className="self-center font-bold text-blue-600 text-3xl">{nombre}</p>

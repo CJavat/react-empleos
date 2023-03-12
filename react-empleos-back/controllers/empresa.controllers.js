@@ -106,9 +106,28 @@ const mostrarEmpresas = async (req, res, next) => {
   res.json(empresas);
 };
 
+//! MOSTRAR MI EMPRESA POR ID.
+const mostrarMiEmpresa = async (req, res, next) => {
+  //* Obtener el id del usuario --
+  const { id } = req.params;
+
+  try {
+    const empresaEncontrada = await Empresa.findOne({
+      reclutador: id,
+    }).populate("reclutador");
+
+    if (!empresaEncontrada) {
+      return res.status(404).json({ msg: "No se ha encontrado la empresa" });
+    }
+
+    res.json(empresaEncontrada);
+  } catch (error) {
+    res.json({ msg: error.message });
+  }
+};
+
 //! ACTUALIZAR DATOS DE LA EMPRESA MEDIANTE UN ID --
 const actualizarEmpresa = async (req, res, next) => {
-  //TODO: ACTUALIZAR, MANDAR ID DEL USUARIO Y EMPRESA POR EL BODY.
   const { idEmpresa, idUsuario } = req.params;
   const datosActualizados = req.body;
 
@@ -193,6 +212,7 @@ module.exports = {
   registrarEmpresa,
   mostrarEmpresa,
   mostrarEmpresas,
+  mostrarMiEmpresa,
   actualizarEmpresa,
   eliminarEmpresa,
 };

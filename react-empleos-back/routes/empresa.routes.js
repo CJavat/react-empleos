@@ -9,6 +9,7 @@ const {
   registrarEmpresa,
   mostrarEmpresa,
   mostrarEmpresas,
+  mostrarMiEmpresa,
   actualizarEmpresa,
   eliminarEmpresa,
 } = require("../controllers/empresa.controllers");
@@ -44,6 +45,9 @@ router.get("/mostrar-empresa/:idEmpresa", mostrarEmpresa);
 
 //! MOSTRAR EMPRESAS --
 router.get("/mostrar-empresas", mostrarEmpresas);
+
+//! MOSTRAR MI EMPRESA POR ID --
+router.get("/mostrar-mi-empresa/:id", mostrarMiEmpresa);
 
 //! ACTUALIZAR DATOS DE UNA EMPRESA --
 router.put(
