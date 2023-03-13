@@ -11,7 +11,6 @@ const agregarVacante = async (req, res, next) => {
 
   const errors = validationResult(req);
 
-  console.log(errors.errors);
   // Si hay errores.
   if (!errors.isEmpty()) {
     return res.status(400).json({ msg: errors.array() });
@@ -21,9 +20,9 @@ const agregarVacante = async (req, res, next) => {
     await vacante.save();
     return res.json({ msg: "La vacante se ha guardado correctamente" });
   } catch (error) {
-    return res
-      .status(400)
-      .json({ msg: "Ha ocurrido un error al guardar la vacante." });
+    return res.status(400).json({
+      msg: "Ha ocurrido un error al guardar la vacante: " + error.message,
+    });
   }
 };
 

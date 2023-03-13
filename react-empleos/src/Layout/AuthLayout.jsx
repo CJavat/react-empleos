@@ -69,6 +69,7 @@ const AuthLayout = () => {
             <Main />
           ) : (
             <div className="h-screen w-full flex flex-col">
+              {/* //TODO: HACER QUE APAREZCA UN BOTON DE CREAR EMPRESA Y MANDARLO A QUE CREE SU EMPRESA, SI ES UN RECLUTADOR SIN UNA EMPRESA CREADA. */}
               <Forbidden alerta={true} />
             </div>
           )

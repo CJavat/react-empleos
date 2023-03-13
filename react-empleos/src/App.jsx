@@ -37,6 +37,8 @@ import VerEmpresas from "./pages/VerEmpresas";
 import VerEmpresa from "./pages/VerEmpresa";
 import MiEmpresa from "./pages/MiEmpresa";
 
+//TODO: AL FINALIZAR EL PROYECTO, INSTALAR sweetalert2 Y EN TODOS LOS TRY-CATCH, CAMBIAR LOS MENSAJES DE CONSOLA POR LA ALERTA.
+
 function App() {
   return (
     <BrowserRouter>

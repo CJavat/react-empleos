@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Sidebar = () => {
+  const { usuarioLogeado } = useAuth();
+
   return (
     <div className="w-full py-2 px-16 text-center flex justify-end items-center gap-4 bg-blue-600 font-bold movilS:px-5 movilS:justify-evenly movilS:flex-wrap movilS:gap-1">
-      <Link
-        to="/crear-vacante"
-        className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
-      >
-        Crear Vacante
-      </Link>
+      {usuarioLogeado.rol === "Reclutador" ? (
+        <Link
+          to="/crear-vacante"
+          className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
+        >
+          Crear Vacante
+        </Link>
+      ) : null}
+
       <Link
         to="/ver-vacantes"
         className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
@@ -21,14 +27,23 @@ const Sidebar = () => {
       >
         Ver Empresas
       </Link>
-      <Link
-        //TODO: URL DINAMICA, ENVIAR A "MI PERFIL" SI ES EMPLEADO Y "MI EMPRESA" SI ES RECLUTADOR.
-        to="/mi-empresa"
-        className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
-      >
-        {/* //TODO: TEXTO DINAMICO, MOSTRAR "MI PERFIL" SI ES EMPLEADO Y "MI EMPRESA" SI ES RECLUTADOR */}
-        Mi Empresa
-      </Link>
+
+      {usuarioLogeado.rol === "Reclutador" ? (
+        <Link
+          to="/mi-empresa"
+          className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
+        >
+          Mi Empresa
+        </Link>
+      ) : (
+        <Link
+          to="/mi-perfil"
+          className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
+        >
+          Mi Perfil
+        </Link>
+      )}
+
       <Link
         to="/mensajes"
         className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"

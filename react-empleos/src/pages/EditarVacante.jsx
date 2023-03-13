@@ -38,7 +38,7 @@ const EditarVacante = () => {
   // }, []);
 
   {
-    //TODO: FALTA HACER ESTA PARTE. ES IGUAL QUE "EDITAR EMPRESA" SE HACE IGUAL
+    //TODO: FALTA HACER ESTA PARTE. ES IGUAL QUE "EDITAR EMPRESA" SE HACE IGUAL Y USAR EL FORMULARIO DE CREAR VACANTE.
     // return esEditable ? <div>EditarVacante</div> : <Forbidden alerta={false} />;
   }
 };

@@ -221,6 +221,14 @@ const editarCuenta = async (req, res, next) => {
         await unlink(`${__dirname}/../uploads/docs/${encontrarUsuario?.cv}`);
       }
     }
+
+    //* Hashear el password actualizado, si existe.
+    if (req.body.password) {
+      // Hashear el password.
+      const hash = await bcrypt.hash(usuario.password, 12);
+      usuario.password = hash;
+    }
+
     await Usuario.findOneAndUpdate({ _id: req.params.idCuenta }, usuario, {
       new: true,
     });

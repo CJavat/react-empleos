@@ -38,7 +38,10 @@ const Header = () => {
           to="/mi-perfil"
           className="font-bold py-2 px-3 border-2 rounded-lg border-none bg-blue-700 text-white hover:text-blue-600 hover:bg-white"
         >
-          Hola {usuarioLogeado.nombre}
+          Hola{" "}
+          <span className="uppercase  text-blue-300">
+            {usuarioLogeado.nombre}
+          </span>
         </Link>
 
         <button

@@ -41,14 +41,14 @@ const MiPerfil = () => {
           </p>
           <p className="flex gap-2">
             Teléfono:{" "}
-            <span className=" text-blue-600">{miUsuario?.telefono}</span>
+            {miUsuario?.telefono ? (
+              <span className=" text-blue-600">{miUsuario?.telefono}</span>
+            ) : (
+              <span className=" text-red-400 uppercase">Sin Teléfono</span>
+            )}
           </p>
           <p className="flex gap-2">
             Rol: <span className=" text-blue-600">{miUsuario?.rol}</span>
-          </p>
-          <p className="flex gap-2">
-            Nacionalidad:
-            <span className="text-blue-600">{miUsuario?.nacionalidad}</span>
           </p>
 
           <p className="flex gap-2">

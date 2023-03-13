@@ -55,8 +55,8 @@ const EditarUsuario = () => {
   const editarDatos = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("nombre", usuario.nombre);
-    formData.append("telefono", usuario.telefono);
+    formData.append("nombre", usuario.nombre ? usuario.nombre : "");
+    formData.append("telefono", usuario.telefono ? usuario.telefono : "");
     formData.append("foto", foto ? foto : usuario.foto);
     if (usuario.rol === "Empleado") formData.append("cv", cv ? cv : usuario.cv);
 
@@ -68,6 +68,7 @@ const EditarUsuario = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      setUsuarioLogeado(usuario);
       navigate(-1);
     } catch (error) {
       console.log(error);
@@ -110,7 +111,7 @@ const EditarUsuario = () => {
                 placeholder="Tu Telefono"
                 className="bg-black border-2 flex-auto text-white border-blue-700 outline-none rounded-md pl-2 py-2 placeholder:text-white placeholder:pl-1 placeholder:text-sm tablet:text-2xl desktopL:text-4xl tablet:placeholder:text-2xl desktopL:placeholder:text-4xl"
                 onChange={leerDatos}
-                value={usuario.telefono ? usuario.telefono : "-"}
+                value={usuario.telefono ? usuario.telefono : ""}
               />
             </div>
 
