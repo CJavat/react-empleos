@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Forbidden = ({ alerta }) => {
   return (
-    <div className="h-screen w-full gap-4 flex flex-col justify-center items-center font-bold text-center">
+    <div className="flex-1 w-full gap-4 flex flex-col justify-center items-center font-bold text-center">
       {alerta ? (
         <p className="w-5/6 text-blue-700 bg-yellow-400 font-bold text-center movilS:text-lg movilL:text-lg desktopL:text-5xl rounded-xl mt-2">
           ¡Atención! - Primero debes confirmar tu cuenta, y si eres reclutador,
@@ -11,7 +11,7 @@ const Forbidden = ({ alerta }) => {
       ) : null}
 
       <h1 className="text-blue-600 movilS:text-4xl tablet:text-7xl laptop:text-8xl desktopL:text-9xl">
-        ERROR 403 - NO AUTORIZADO
+        <span className="text-red-500">ERROR 403</span> - NO AUTORIZADO
       </h1>
       <h2 className="text-white movilS:text-2xl desktop:text-4xl desktopL:text-6xl">
         NO TIENES ACCESO PARA ENTRAR A ÉSTA PÁGINA

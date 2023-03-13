@@ -49,7 +49,7 @@ const EditarEmpresa = () => {
     formData.append("estado", datosEmpresa.estado);
     formData.append("ubicacion", datosEmpresa.ubicacion);
     formData.append("urlEmpresa", datosEmpresa.urlEmpresa);
-    formData.append("logoEmpresa", logo);
+    formData.append("logoEmpresa", logo ? logo : datosEmpresa.logo);
 
     //* Almacenar en la DB.
     try {
@@ -151,6 +151,7 @@ const EditarEmpresa = () => {
           </div>
 
           <div className="w-full flex justify-center px-4">
+            {/* //TODO: FALTA VALIDAR LA INPUT, QUE SOLO SE ACEPTE UN TIPO PDF */}
             <input
               type="file"
               name="logoEmpresa"

@@ -4,7 +4,7 @@ import clienteAxios from "../helpers/configAxios";
 import useAuth from "../hooks/useAuth";
 
 const Inicio = () => {
-  const { usuarioLogeado, cargando, setCargando } = useAuth();
+  const { cargando, setCargando } = useAuth();
 
   const [vacantes, setVacantes] = useState([]);
 

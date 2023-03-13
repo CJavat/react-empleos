@@ -11,17 +11,8 @@ const AuthProvider = ({ children }) => {
   const [cargando, setCargando] = useState(true);
   const [empresas, setEmpresas] = useState([]);
 
-  // useEffect(() => {
-  //   obtenerEmpresas();
-  // }, []);
-
   const obtenerEmpresas = async () => {
     const respuesta = await clienteAxios.get("/empresa/mostrar-empresas");
-
-    // const miEmpresa = await respuesta.data.filter(
-    //   (empresa) => usuarioLogeado._id === empresa.reclutador._id
-    // );
-    // usuarioLogeado.miEmpresa = miEmpresa;
 
     setEmpresas(respuesta.data);
   };

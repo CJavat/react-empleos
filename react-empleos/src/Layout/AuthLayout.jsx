@@ -39,6 +39,7 @@ const AuthLayout = () => {
         if (respuesta.data.empresaCreada === 1) setErrorEmpresaCreada(false);
 
         setUsuarioLogeado(respuesta.data);
+
         if (respuesta.data.rol === "Empleado") {
           setEsEmpleado(true);
         }
@@ -60,12 +61,16 @@ const AuthLayout = () => {
       <>
         {alerta ? <Alerta mensaje={alerta} error={errorAlerta} /> : null}
         {errorConfirmacion ? (
-          <Forbidden alerta={true} />
+          <div className="h-screen w-full flex flex-col">
+            <Forbidden alerta={true} />
+          </div>
         ) : errorEmpresaCreada ? (
           esEmpleado ? (
             <Main />
           ) : (
-            <Forbidden alerta={true} />
+            <div className="h-screen w-full flex flex-col">
+              <Forbidden alerta={true} />
+            </div>
           )
         ) : (
           <Main />

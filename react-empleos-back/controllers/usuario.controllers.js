@@ -160,38 +160,49 @@ const registrarUsuario = async (req, res, next) => {
 };
 
 const obtenerUsuarios = async (req, res) => {
-  const usuarios = await Usuario.find();
+  try {
+    const usuarios = await Usuario.find();
 
-  if (!usuarios) {
-    return res.status(404).json({ msg: "No Hay Usuarios" });
+    if (!usuarios) {
+      return res.status(404).json({ msg: "No Hay Usuarios" });
+    }
+
+    res.json(usuarios);
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ msg: "Hubo un error en la consulta: " + error.message });
   }
-
-  res.json(usuarios);
 };
 
 const obtenerUsuario = async (req, res) => {
-  const usuario = await Usuario.findById(req.params.idCuenta);
+  try {
+    const usuario = await Usuario.findById(req.params.idCuenta);
 
-  if (!usuario) {
-    return res.status(404).json({ msg: "Usuario No Encontrado" });
+    if (!usuario) {
+      return res.status(404).json({ msg: "Usuario No Encontrado" });
+    }
+
+    res.json(usuario);
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ msg: "Hubo un error en la consulta: " + error.message });
   }
-
-  res.json(usuario);
 };
 
 const editarCuenta = async (req, res, next) => {
   const usuario = req.body;
   const { idCuenta } = req.params;
 
-  const encontrarUsuario = await Usuario.findById(idCuenta);
-
-  if (!encontrarUsuario) {
-    return res.status(404).json({ msg: "El usuario no existe" });
-  }
-
   try {
+    const encontrarUsuario = await Usuario.findById(idCuenta);
+
+    if (!encontrarUsuario) {
+      return res.status(404).json({ msg: "El usuario no existe" });
+    }
+
     if (req.files?.foto) {
-      console.log(req?.files?.foto);
       usuario.foto = req.files.foto[0].filename;
 
       //* Eliminar la vieja imagen.
@@ -210,13 +221,9 @@ const editarCuenta = async (req, res, next) => {
         await unlink(`${__dirname}/../uploads/docs/${encontrarUsuario?.cv}`);
       }
     }
-    const resultado = await Usuario.findOneAndUpdate(
-      { _id: req.params.idCuenta },
-      usuario,
-      {
-        new: true,
-      }
-    );
+    await Usuario.findOneAndUpdate({ _id: req.params.idCuenta }, usuario, {
+      new: true,
+    });
 
     res.json({ msg: "Usuario Actualizado Correctamente" });
   } catch (error) {

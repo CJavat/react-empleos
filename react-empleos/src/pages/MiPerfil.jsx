@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import clienteAxios from "../helpers/configAxios";
 import useAuth from "../hooks/useAuth";
-import Iframe from "react-iframe";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
 
@@ -91,17 +90,20 @@ const MiPerfil = () => {
           </p>
 
           {/* //TODO: ES UN LINK, MANDARLO A LA PAGINA DE EDICION DE USUARIO */}
-          <button className="uppercase border-2 flex-1 rounded-lg mt-7 py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white">
+          <Link
+            to={`/usuario/editar/${miUsuario._id}`}
+            className="uppercase text-center border-2 flex-1 rounded-lg mt-7 py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
+          >
             Editar Perfil
-          </button>
+          </Link>
         </div>
 
-        <div className="flex flex-col justify-center items-center movilS:w-44 movilL:w-56 tablet:w-96 desktopL:w-96 movilS:h-44 movilL:h-56 tablet:h-96 desktopL:h-96 ">
+        <div className="flex flex-col justify-center items-center w-full">
           {miUsuario?.foto ? (
             <img
               src={`http://localhost:5000/${miUsuario?.foto}`}
               alt={`Logo - ${miUsuario?.foto}`}
-              className="border-2 border-blue-600 rounded-lg object-contain"
+              className=" border-2 border-blue-600 rounded-lg object-cover movilS:w-44 movilL:w-56 tablet:w-96 desktopL:w-96 movilS:h-44 movilL:h-56 tablet:h-96 desktopL:h-96 "
             />
           ) : (
             <p className="flex justify-center items-center font-bold text-center text-red-600 border-blue-600 border-2 px-7 py-7 rounded-lg movilS:w-44 movilL:w-56 laptop:w-72 desktop:w-80 desktopL:w-96 movilS:h-44 movilL:h-56 laptop:h-72 desktop:h-80 desktopL:h-96">
