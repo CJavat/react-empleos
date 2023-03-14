@@ -25,6 +25,7 @@ const vacanteSchema = new Schema({
     type: Schema.ObjectId,
     ref: "Empresa",
   },
+  usuariosPostulados: [{ type: Schema.ObjectId, ref: "Usuario" }],
 });
 
 module.exports = mongoose.model("Vacante", vacanteSchema);

@@ -55,7 +55,6 @@ const CrearVacante = () => {
     setVacante({ ...vacante, empresa: idEmpresa });
 
     try {
-      console.log(vacante);
       const respuesta = await clienteAxios.post(
         "/vacantes/agregar-vacante",
         vacante
@@ -80,7 +79,6 @@ const CrearVacante = () => {
   };
 
   {
-    //* NOMBRE, EMAIL, TELEFONO, PASSWORD, FOTO, CV.
     return cargando ? (
       <Spinner />
     ) : permitirCrear ? (
@@ -139,7 +137,7 @@ const CrearVacante = () => {
               <option value="Lun-Vie">Lunes a Viernes</option>
               <option value="Lunes-Sabado">Lunes a Sabado</option>
               <option value="Sabado-Domingo">Sabado Y Domingo</option>
-              <option value="Por Horasbado">Por Horas</option>
+              <option value="Por Horas">Por Horas</option>
             </select>
 
             <div className="w-full flex items-center gap-1 movilL:gap-2 movilS:flex-wrap movilL:flex-nowrap">
@@ -156,7 +154,7 @@ const CrearVacante = () => {
           <input
             type="submit"
             value="Crear Vacante"
-            className="self-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-gray-700 hover:bg-white"
+            className="uppercase self-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-gray-700 hover:bg-white"
           />
         </form>
       </div>

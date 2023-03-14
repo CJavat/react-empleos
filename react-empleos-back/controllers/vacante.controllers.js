@@ -1,9 +1,9 @@
 //! IMPORTAR DEPENDENCIAS --
 const Vacante = require("../models/Vacante.models");
+const { usuarioPostulado } = require("../config/mailtrap");
 
 //* Validar formulario.
 const { validationResult } = require("express-validator");
-const { populate } = require("../models/Vacante.models");
 
 //! AGREGAR UNA VACANTE A LA DB --
 const agregarVacante = async (req, res, next) => {
@@ -85,6 +85,7 @@ const actualizarVacante = async (req, res, next) => {
   }
 };
 
+//! ELIMINAR LA VACANTE MEDIANTE SU ID --
 const eliminarVacante = async (req, res, next) => {
   const { idVacante } = req.params;
   try {
@@ -103,6 +104,41 @@ const eliminarVacante = async (req, res, next) => {
   }
 };
 
+//! POSTULARME A LA VACANTE MEDIANTE EL ID DE LA VACANTE Y EL ID DEL USUARIO --
+const postularme = async (req, res, next) => {
+  const { idVacante } = req.params;
+  const { usuariosPostulados, emailUsuario, emailEmpresa } = req.body;
+
+  try {
+    const obtenerVacante = await Vacante.findById(idVacante);
+    if (!obtenerVacante) {
+      return res
+        .status(404)
+        .json({ msg: "ERROR, no hemos encontrado la vacante" });
+    }
+
+    obtenerVacante.usuariosPostulados = [
+      ...obtenerVacante.usuariosPostulados,
+      usuariosPostulados,
+    ];
+
+    //* Notificar por Email al usuario y empresa.
+    usuarioPostulado({
+      emailUsuario: emailUsuario,
+      emailEmpresa: emailEmpresa,
+      nombreVacante: obtenerVacante.nombre,
+    });
+
+    await obtenerVacante.save();
+
+    res.json({ msg: "La postulación se ha hecho con éxito" });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ msg: "Ocurrio un error en la consulta: " + error.message });
+  }
+};
+
 //! EXPORTAR CONTROLADORES.
 module.exports = {
   agregarVacante,
@@ -110,4 +146,5 @@ module.exports = {
   mostrarVacantes,
   actualizarVacante,
   eliminarVacante,
+  postularme,
 };

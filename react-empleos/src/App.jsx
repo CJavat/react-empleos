@@ -36,6 +36,7 @@ import EditarEmpresa from "./pages/EditarEmpresa";
 import VerEmpresas from "./pages/VerEmpresas";
 import VerEmpresa from "./pages/VerEmpresa";
 import MiEmpresa from "./pages/MiEmpresa";
+import Postulaciones from "./pages/Postulaciones";
 
 //TODO: AL FINALIZAR EL PROYECTO, INSTALAR sweetalert2 Y EN TODOS LOS TRY-CATCH, CAMBIAR LOS MENSAJES DE CONSOLA POR LA ALERTA.
 
@@ -66,21 +67,24 @@ function App() {
             <Route index element={<Inicio />} />
             <Route path="/mi-perfil" element={<MiPerfil />} />
             <Route path="/mi-empresa" element={<MiEmpresa />} />
+            //* -------------USUARIOS------------------
             <Route path="/usuario/perfil/:id" element={<Usuario />} />
-            //TODO: FALTA POR HACER
             <Route path="/usuario/editar/:id" element={<EditarUsuario />} />
-            //TODO: FALTA POR HACER
+            //* ---------------VACANTES----------------
             <Route path="/crear-vacante" element={<CrearVacante />} />
             <Route path="/ver-vacantes" element={<VerVacantes />} />
             <Route path="/vacante/mostrar-vacante/:id" element={<Vacante />} />
-            //TODO: FALTA POR HACER
             <Route
               path="/vacante/editar-vacante/:id"
               element={<EditarVacante />}
             />
+            <Route
+              path="/vacante/postulaciones/:id"
+              element={<Postulaciones />}
+            />
+            --------------EMPRESAS-----------------
             <Route path="/ver-empresas" element={<VerEmpresas />} />
             <Route path="/empresa/:id" element={<VerEmpresa />} />
-            //TODO: FALTA POR HACER
             <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />
           </Route>
 

@@ -8,8 +8,8 @@ const comprobarCuenta = async (datos) => {
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "27ef6b0ef54956",
-      pass: "072c9072fbbca1",
+      user: "9866253788b401",
+      pass: "b423096e125aaf",
     },
   });
 
@@ -37,8 +37,8 @@ const emailOlvidePassword = async (datos) => {
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "27ef6b0ef54956",
-      pass: "072c9072fbbca1",
+      user: "9866253788b401",
+      pass: "b423096e125aaf",
     },
   });
 
@@ -57,4 +57,52 @@ const emailOlvidePassword = async (datos) => {
     `,
   });
 };
-module.exports = { comprobarCuenta, emailOlvidePassword };
+
+//! FUNCIÓN PARA NOTIFICARLE AL USUARIO Y EMPRESA DE LA POSTULACION --
+const usuarioPostulado = async (datos) => {
+  const { emailEmpresa, emailUsuario, nombreVacante } = datos;
+
+  var transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "9866253788b401",
+      pass: "b423096e125aaf",
+    },
+  });
+
+  try {
+    //* Información del email para el usuario.
+    await transport.sendMail({
+      from: "'reactEmpleos' <noreply@reactempleos.com>",
+      to: emailUsuario,
+      subject: `reactEmpleos - Te postulaste a la vacante: ${nombreVacante}`,
+      text: `Postulación a la vacante: ${nombreVacante}`,
+      html: `
+      <p>Hola, Te has postulado correctamente a la vacante</p>
+      <p>Te deseamos mucha suerte en tu proceso de selección</p>
+      <p>Sólo queda esperar a que el reclutador te contacte. ¡MUCHA SUERTE!</p>
+
+      <p>Si tu no solicitaste este email puedes ignorar este mensaje.</p>
+      `,
+    });
+
+    //* Información del email para la empresa.
+    await transport.sendMail({
+      from: "'reactEmpleos' <noreply@reactempleos.com>",
+      to: emailEmpresa,
+      subject: `reactEmpleos - Nueva postulación en tu vacante: ${nombreVacante}`,
+      text: "NUEVA POSTULACION EN TU VACANTE",
+      html: `
+    <p>Alguien se ha postulado en la vacante ${nombreVacante}</p>
+    <p></p>
+    
+      <p>Si tu no solicitaste este email puedes ignorar este mensaje.</p>
+    `,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+module.exports = { comprobarCuenta, emailOlvidePassword, usuarioPostulado };

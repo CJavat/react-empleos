@@ -148,6 +148,7 @@ const registrarUsuario = async (req, res, next) => {
       nombre: agregarUsuario.nombre,
       token,
     });
+
     res.json({
       msg: "Usuario Creado Correctamente, Se envió un correo a tu email para que confirmes tu cuenta",
       id: agregarUsuario._id,

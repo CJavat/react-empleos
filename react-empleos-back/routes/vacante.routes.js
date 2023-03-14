@@ -11,6 +11,7 @@ const {
   mostrarVacantes,
   actualizarVacante,
   eliminarVacante,
+  postularme,
 } = require("../controllers/vacante.controllers");
 
 //! REGISTRAR UNA NUEVA VACANTE --
@@ -52,26 +53,31 @@ router.put(
   [
     body("nombre")
       .isString()
-      .withMessage("Introduce puros letras")
+      .withMessage("NOMBRE: Introduce puros letras")
       .notEmpty()
-      .withMessage("El nombre de la vacante es obligatorio"),
+      .withMessage("NOMBRE: El nombre de la vacante es obligatorio"),
 
     body("salario")
       .isNumeric()
-      .withMessage("Debe ser digitos")
+      .withMessage("SALARIO: Escribe digitos")
       .isLength({ min: 3 })
-      .withMessage("Escribe solamente numeros. Mínimo 3 digítos"),
+      .withMessage("SALARIO: Mínimo 3 digítos"),
 
-    body("diasTrabajo").isString().withMessage("Introduce puros letras"),
+    body("diasTrabajo")
+      .notEmpty()
+      .withMessage("DIAS DE TRABAJO: El nombre de la vacante es obligatorio"),
 
     body("descripcion")
       .isLength({ min: 20 })
-      .withMessage("Escribe una descripción más larga"),
+      .withMessage("DESCRIPCION: Escribe una descripción más larga"),
   ],
   actualizarVacante
 );
 
 //! ELIMINAR UNA VACANTE MEDIANTE SU ID --
 router.delete("/eliminar-vacante/:idVacante", eliminarVacante);
+
+//! POSTULARSE A LA VACANTE --
+router.put("/postularme/:idVacante", postularme);
 
 module.exports = router;
