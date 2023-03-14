@@ -12,6 +12,7 @@ const {
   actualizarVacante,
   eliminarVacante,
   postularme,
+  mostrarVacantesDeEmpresa,
 } = require("../controllers/vacante.controllers");
 
 //! REGISTRAR UNA NUEVA VACANTE --
@@ -79,5 +80,7 @@ router.delete("/eliminar-vacante/:idVacante", eliminarVacante);
 
 //! POSTULARSE A LA VACANTE --
 router.put("/postularme/:idVacante", postularme);
+
+router.get("/mostrar-vacantes-de-empresa/:id", mostrarVacantesDeEmpresa);
 
 module.exports = router;

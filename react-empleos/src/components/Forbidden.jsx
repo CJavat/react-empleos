@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import clienteAxios from "../helpers/configAxios";
 
-const Forbidden = ({ alerta }) => {
-  //TODO: HACER QUE APAREZCA UN BOTON DE CREAR EMPRESA Y MANDARLO A QUE CREE SU EMPRESA, SI ES UN RECLUTADOR SIN UNA EMPRESA CREADA.
-
+const Forbidden = ({ alerta, btnCrearEmpresa }) => {
   return (
     <div className="flex-1 w-full gap-4 flex flex-col justify-center items-center font-bold text-center">
       {alerta ? (
@@ -22,11 +20,22 @@ const Forbidden = ({ alerta }) => {
       </h2>
 
       {alerta ? (
+        !btnCrearEmpresa ? (
+          <Link
+            to="/auth/iniciar-sesion"
+            className="cursor-pointer bg-blue-600 border-blue-600 text-white hover:bg-white hover:border-white hover:text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
+          >
+            INICIAR SESIÓN
+          </Link>
+        ) : null
+      ) : null}
+
+      {btnCrearEmpresa ? (
         <Link
-          to="/auth/iniciar-sesion"
-          className="cursor-pointer bg-white text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
+          to="/aux/nueva-empresa"
+          className="cursor-pointer bg-blue-600 border-blue-600 text-white hover:bg-white hover:border-white hover:text-blue-600 border-2 rounded-lg font-bold px-7 py-1 movilS:w-11/12 tablet:w-7/12 movilS:text-lg tablet:text-2xl desktopL:text-4xl desktopL:desktopL:mt-7"
         >
-          INICIAR SESIÓN
+          CREAR EMPRESA
         </Link>
       ) : null}
     </div>

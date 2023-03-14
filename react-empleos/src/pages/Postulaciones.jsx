@@ -8,7 +8,6 @@ import Forbidden from "../components/Forbidden";
 import Spinner from "../components/Spinner";
 import UsuariosPostulados from "../components/UsuariosPostulados";
 
-//TODO: FALTA HACER ESTA PÁGINA.. //
 const Postulaciones = () => {
   //* OBTENER ID DE LA VACANTE.
   const { id } = useParams();
@@ -39,8 +38,6 @@ const Postulaciones = () => {
     }
     setCargando(false);
   }, [datosVacante?.empresa?.reclutador?._id]);
-
-  // console.log(datosVacante);
 
   {
     return cargando ? (

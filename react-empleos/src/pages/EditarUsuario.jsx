@@ -35,13 +35,31 @@ const EditarUsuario = () => {
     }
     setCargando(false);
   }, []);
-  console.log(usuario);
+  // console.log(usuario);
 
   const leerFoto = (e) => {
+    const archivo = e.target.value;
+    if (
+      archivo.split(".").lastIndexOf("png") !== archivo.split(".").length - 1 &&
+      archivo.split(".").lastIndexOf("jpg") !== archivo.split(".").length - 1
+    ) {
+      e.target.value = null;
+      return alert("Sólo está permitido subir imagenes PNG o JPG");
+    }
+
     setFoto(e.target.files[0]);
   };
 
   const leerCV = (e) => {
+    const archivo = e.target.value;
+    if (
+      archivo.split(".").lastIndexOf("pdf") !==
+      archivo.split(".").length - 1
+    ) {
+      e.target.value = null;
+      return alert("Sólo está permitido subir imagenes PNG o JPG");
+    }
+
     setCV(e.target.files[0]);
   };
 
@@ -60,7 +78,6 @@ const EditarUsuario = () => {
     formData.append("foto", foto ? foto : usuario.foto);
     if (usuario.rol === "Empleado") formData.append("cv", cv ? cv : usuario.cv);
 
-    //TODO: ANTES DE ENVIAR EL PASSWORD SE DEBE HASHEAR OTRA VEZ. IMGEN EN EL CEL
     formData.append("password", usuario.password);
 
     try {
@@ -126,7 +143,6 @@ const EditarUsuario = () => {
             </div>
 
             <div className="w-full flex flex-col tablet:items-center gap-2 px-4">
-              {/* //TODO: FALTA VALIDAR LA INPUT, QUE SOLO SE ACEPTE UN TIPO PNG/JPG */}
               <label className="font-bold text-blue-600 uppercase">
                 Subir Foto
               </label>
@@ -141,7 +157,7 @@ const EditarUsuario = () => {
 
             {usuario.rol === "Empleado" ? (
               <div className="w-full flex flex-col tablet:items-center gap-2 px-4">
-                {/* //TODO: FALTA VALIDAR LA INPUT, QUE SOLO SE ACEPTE UN TIPO PDF */}
+                {/*  FALTA VALIDAR LA INPUT, QUE SOLO SE ACEPTE UN TIPO PDF */}
                 <label className="font-bold text-blue-600 uppercase">
                   Subir Cv
                 </label>

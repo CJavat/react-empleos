@@ -2,15 +2,25 @@ import React, { useEffect, useState } from "react";
 import clienteAxios from "../helpers/configAxios";
 import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
+import Forbidden from "../components/Forbidden";
+import Spinner from "../components/Spinner";
 
 const MiEmpresa = () => {
   const { usuarioLogeado, cargando, setCargando } = useAuth();
 
   const [empresa, setEmpresa] = useState({});
+  const [mostrarRuta, setMostrarRuta] = useState(false);
+  const [vacantesEncontradas, setVacantesEncontradas] = useState(false);
 
   useEffect(() => {
+    setCargando(true);
     try {
-      setCargando(true);
+      if (usuarioLogeado.rol === "Empleado") {
+        setCargando(false);
+        return setMostrarRuta(false);
+      } else {
+        setMostrarRuta(true);
+      }
       const obtenerEmpresa = async () => {
         const respuesta = await clienteAxios.get(
           `/empresa/mostrar-mi-empresa/${usuarioLogeado._id}`
@@ -22,10 +32,27 @@ const MiEmpresa = () => {
       console.log(error);
     }
     setCargando(false);
-  }, []);
+  }, [empresa._id < 0]);
+
+  useEffect(() => {
+    console.log(empresa);
+    setCargando(true);
+    const obtenerEmpresa = async () => {
+      if (empresa._id) {
+        const respuesta = await clienteAxios.get(
+          `/vacantes/mostrar-vacantes-de-empresa/${empresa?._id}`
+        );
+        setVacantesEncontradas(respuesta?.data);
+      }
+    };
+    obtenerEmpresa();
+    setCargando(false);
+  }, [empresa._id?.length > 0]);
 
   {
-    return (
+    return cargando ? (
+      <Spinner />
+    ) : mostrarRuta ? (
       <div className="flex flex-col justify-center items-center gap-3">
         <p className="flex justify-center items-end gap-2 text-center movilS:text-2xl movilL:text-3xl tablet:text-6xl desktopL:text-5xl">
           Mi
@@ -107,8 +134,23 @@ const MiEmpresa = () => {
           >
             Editar Mi Empresa
           </Link>
+
+          {vacantesEncontradas ? (
+            <Link
+              to={`/mis-vacantes/${empresa?._id}`}
+              className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:text-red-600 hover:border-white hover:bg-white"
+            >
+              Ver mis vacantes
+            </Link>
+          ) : (
+            <p className="font-bold text-gray-600 uppercase text-lg self-center text-center w-11/12">
+              Aún no tienes vacantes publicadas
+            </p>
+          )}
         </div>
       </div>
+    ) : (
+      <Forbidden />
     );
   }
 };

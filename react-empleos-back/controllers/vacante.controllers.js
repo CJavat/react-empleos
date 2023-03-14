@@ -139,6 +139,27 @@ const postularme = async (req, res, next) => {
   }
 };
 
+//! MOSTRAR TODAS LAS VACANTES QUE CONTIENE UNA EMPRESA --
+const mostrarVacantesDeEmpresa = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const vacantesEncontradas = await Vacante.find({ empresa: id }).populate(
+      "empresa"
+    );
+    if (!vacantesEncontradas) {
+      return res
+        .status(404)
+        .json({ msg: "Esta empresa no tiene vacantes disponibles" });
+    }
+
+    res.json(vacantesEncontradas);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ msg: "Ocurrio un error en la consulta: " + error.message });
+  }
+};
+
 //! EXPORTAR CONTROLADORES.
 module.exports = {
   agregarVacante,
@@ -147,4 +168,5 @@ module.exports = {
   actualizarVacante,
   eliminarVacante,
   postularme,
+  mostrarVacantesDeEmpresa,
 };

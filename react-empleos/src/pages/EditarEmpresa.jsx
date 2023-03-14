@@ -68,6 +68,15 @@ const EditarEmpresa = () => {
   };
 
   const leerLogo = (e) => {
+    const archivo = e.target.value;
+    if (
+      archivo.split(".").lastIndexOf("png") !== archivo.split(".").length - 1 &&
+      archivo.split(".").lastIndexOf("jpg") !== archivo.split(".").length - 1
+    ) {
+      e.target.value = null;
+      return alert("Sólo está permitido subir imagenes PNG o JPG");
+    }
+
     setLogo(e.target.files[0]);
   };
 
@@ -151,7 +160,6 @@ const EditarEmpresa = () => {
           </div>
 
           <div className="w-full flex justify-center px-4">
-            {/* //TODO: FALTA VALIDAR LA INPUT, QUE SOLO SE ACEPTE UN TIPO PDF */}
             <input
               type="file"
               name="logoEmpresa"

@@ -93,8 +93,6 @@ const Empresa = ({ empresa }) => {
           Ver Empresa
         </Link>
 
-        {/* //TODO: MOSTRAR OTRO BOTÓN QUE DIGA "MOSTRAR VACANTES DE LA EMPRESA" */}
-
         {esMiEmpresa ? (
           <Link
             to={`/empresa/editar/${empresa._id}`}

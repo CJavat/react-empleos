@@ -1,6 +1,7 @@
 const Usuario = require("../models/Usuario.models");
 const { emailOlvidePassword } = require("../config/mailtrap");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 //! OBTENER TOKEN PARA CONFIRMAR LA CUENTA --
 const comprobarCuenta = async (req, res) => {
@@ -81,7 +82,6 @@ const recuperarPassword = async (req, res, next) => {
       });
     }
 
-    // Actualizar contraseña y token del usuario.
     usuarioEncontrado.password = password;
     usuarioEncontrado.token = "";
 

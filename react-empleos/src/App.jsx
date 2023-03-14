@@ -20,7 +20,9 @@ import Inicio from "./pages/Inicio";
 import MiPerfil from "./pages/MiPerfil";
 import MiEmpresa from "./pages/MiEmpresa";
 import MisMensajes from "./pages/MisMensajes";
+import MisVacantes from "./pages/MisVacantes";
 import EnviarMensaje from "./pages/EnviarMensaje";
+import NuevaEmpresa from "./pages/NuevaEmpresa";
 import NotFound from "./pages/NotFound";
 
 //* USUARIO
@@ -32,6 +34,7 @@ import Vacante from "./components/Vacante";
 import CrearVacante from "./pages/CrearVacante";
 import EditarVacante from "./pages/EditarVacante";
 import VerVacantes from "./pages/VerVacantes";
+import VerVacantesEmpresa from "./pages/VerVacantesEmpresa";
 
 //* EMPRESA
 import CrearEmpresa from "./pages/auth/CrearEmpresa";
@@ -67,9 +70,8 @@ function App() {
             <Route index element={<Inicio />} />
             <Route path="/mi-perfil" element={<MiPerfil />} />
             <Route path="/mi-empresa" element={<MiEmpresa />} />
-            {/* //TODO: FALTA POR HACER: */}
+            <Route path="/mis-vacantes/:id" element={<MisVacantes />} />
             <Route path="/mis-mensajes/:id" element={<MisMensajes />} />
-            {/* //TODO: FALTA POR HACER: */}
             <Route path="/enviar-mensaje/:id" element={<EnviarMensaje />} />
             //*-------------USUARIOS------------------
             <Route path="/usuario/perfil/:id" element={<Usuario />} />
@@ -78,6 +80,10 @@ function App() {
             <Route path="/crear-vacante" element={<CrearVacante />} />
             <Route path="/ver-vacantes" element={<VerVacantes />} />
             <Route path="/vacante/mostrar-vacante/:id" element={<Vacante />} />
+            <Route
+              path="/ver-vacantes-empresa/:id"
+              element={<VerVacantesEmpresa />}
+            />
             <Route
               path="/vacante/editar-vacante/:id"
               element={<EditarVacante />}
@@ -91,6 +97,7 @@ function App() {
             <Route path="/empresa/:id" element={<VerEmpresa />} />
             <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />
           </Route>
+          <Route path="/aux/nueva-empresa" element={<NuevaEmpresa />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>

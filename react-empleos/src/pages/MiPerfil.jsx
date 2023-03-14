@@ -51,7 +51,7 @@ const MiPerfil = () => {
             Rol: <span className=" text-blue-600">{miUsuario?.rol}</span>
           </p>
 
-          <p className="flex gap-2">
+          <p className="flex movilS:gap-0 movilS:flex-col movilL:flex-row movilL:gap-2">
             Email:
             <span className="text-blue-600">{miUsuario?.email}</span>
           </p>

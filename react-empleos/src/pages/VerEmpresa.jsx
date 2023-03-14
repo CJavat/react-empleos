@@ -5,14 +5,15 @@ import clienteAxios from "../helpers/configAxios";
 import useAuth from "../hooks/useAuth";
 
 const VerEmpresa = () => {
+  const { id } = useParams();
+
   const { cargando, setCargando, usuarioLogeado } = useAuth();
 
   const [empresa, setEmpresa] = useState({});
   const [miEmpresa, setMiEmpresa] = useState(false);
   const [rutaLogo, setRutaLogo] = useState("");
   const [hayLogo, setHayLogo] = useState(false);
-
-  const { id } = useParams();
+  const [vacantesEncontradas, setVacantesEncontradas] = useState([]);
 
   useEffect(() => {
     setCargando(true);
@@ -38,6 +39,16 @@ const VerEmpresa = () => {
 
     setCargando(false);
   }, []);
+
+  useEffect(() => {
+    const obtenerEmpresa = async () => {
+      const respuesta = await clienteAxios.get(
+        `/vacantes/mostrar-vacantes-de-empresa/${id}`
+      );
+      setVacantesEncontradas(respuesta?.data);
+    };
+    obtenerEmpresa();
+  }, [vacantesEncontradas.length > 0]);
 
   {
     return cargando ? (
@@ -82,6 +93,7 @@ const VerEmpresa = () => {
               <h3 className="font-bold text-blue-700 text-3xl mt-5">
                 CONTACTO:
               </h3>
+
               <p>
                 Nombre del reclutador:{" "}
                 <Link
@@ -91,12 +103,14 @@ const VerEmpresa = () => {
                   {empresa?.reclutador?.nombre}
                 </Link>
               </p>
+
               <p>
                 Email:{" "}
                 <span className="text-gray-600 font-bold">
                   {empresa?.reclutador?.email}
                 </span>
               </p>
+
               <p>
                 Teléfono:{" "}
                 <span className="text-gray-600 font-bold">
@@ -108,11 +122,24 @@ const VerEmpresa = () => {
             {miEmpresa ? (
               <Link
                 to={`/empresa/editar/${empresa._id}`}
-                className="self-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-gray-700 hover:bg-white"
+                className="self-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-indigo-700 bg-indigo-600 hover:text-indigo-600 hover:border-gray-700 hover:bg-white"
               >
                 Editar Mi Empresa
               </Link>
             ) : null}
+
+            {vacantesEncontradas.length > 0 ? (
+              <Link
+                to={`/ver-vacantes-empresa/${empresa._id}`}
+                className="self-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-gray-700 hover:bg-white"
+              >
+                Ver Vacantes Disponibles
+              </Link>
+            ) : (
+              <p className="font-bold text-gray-600 uppercase text-lg self-center text-center w-11/12">
+                Esta empresa no tiene vacantes disponibles
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col justify-center items-center w-full tablet:justify-end">
