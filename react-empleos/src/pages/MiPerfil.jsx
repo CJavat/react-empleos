@@ -89,7 +89,6 @@ const MiPerfil = () => {
             )}
           </p>
 
-          {/* //TODO: ES UN LINK, MANDARLO A LA PAGINA DE EDICION DE USUARIO */}
           <Link
             to={`/usuario/editar/${miUsuario._id}`}
             className="uppercase text-center border-2 flex-1 rounded-lg mt-7 py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
