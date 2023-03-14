@@ -45,7 +45,7 @@ const Sidebar = () => {
       )}
 
       <Link
-        to="/mensajes"
+        to={`/mis-mensajes/${usuarioLogeado._id}`}
         className="border-2 flex-1 rounded-lg py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
       >
         Mensajes

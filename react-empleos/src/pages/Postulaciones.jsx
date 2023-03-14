@@ -6,6 +6,7 @@ import clienteAxios from "../helpers/configAxios";
 
 import Forbidden from "../components/Forbidden";
 import Spinner from "../components/Spinner";
+import UsuariosPostulados from "../components/UsuariosPostulados";
 
 //TODO: FALTA HACER ESTA PÁGINA.. //
 const Postulaciones = () => {
@@ -39,21 +40,36 @@ const Postulaciones = () => {
     setCargando(false);
   }, [datosVacante?.empresa?.reclutador?._id]);
 
-  console.log();
+  // console.log(datosVacante);
 
   {
     return cargando ? (
       <Spinner />
     ) : miVacante ? (
-      <div>
-        <p className="flex justify-center items-end gap-2 text-center movilS:text-2xl movilL:text-3xl tablet:text-6xl desktopL:text-5xl">
-          Usuarios
-          <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-7xl desktopL:text-9xl">
-            Postulados
-          </span>
-        </p>
+      <div className="w-full flex flex-col justify-center items-center gap-6">
+        <div>
+          <p className="flex justify-center items-end gap-2 text-center movilS:text-2xl movilL:text-3xl tablet:text-6xl desktopL:text-5xl">
+            Usuarios
+            <span className="text-blue-600 font-bold movilS:text-4xl tablet:text-7xl desktopL:text-9xl">
+              Postulados
+            </span>
+          </p>
 
-        {/* //TODO: MOSTRAR LOS USUARIOS QUE SE HAN POSTULADO */}
+          <p className="flex movilS:flex-col justify-center items-center text-indigo-500 text-center movilS:text-2xl movilL:text-3xl tablet:text-6xl desktopL:text-5xl">
+            Vacante:
+            <span className="text-blue-600 font-bold">
+              {datosVacante.nombre}
+            </span>
+          </p>
+        </div>
+
+        {datosVacante.usuariosPostulados.map((usuario) => (
+          <UsuariosPostulados
+            key={usuario}
+            usuario={usuario}
+            nombreVacante={datosVacante.nombre}
+          />
+        ))}
       </div>
     ) : (
       <Forbidden />

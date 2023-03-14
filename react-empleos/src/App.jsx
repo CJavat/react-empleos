@@ -18,6 +18,9 @@ import NuevoPassword from "./components/NuevoPassword";
 //* PAGES
 import Inicio from "./pages/Inicio";
 import MiPerfil from "./pages/MiPerfil";
+import MiEmpresa from "./pages/MiEmpresa";
+import MisMensajes from "./pages/MisMensajes";
+import EnviarMensaje from "./pages/EnviarMensaje";
 import NotFound from "./pages/NotFound";
 
 //* USUARIO
@@ -35,10 +38,7 @@ import CrearEmpresa from "./pages/auth/CrearEmpresa";
 import EditarEmpresa from "./pages/EditarEmpresa";
 import VerEmpresas from "./pages/VerEmpresas";
 import VerEmpresa from "./pages/VerEmpresa";
-import MiEmpresa from "./pages/MiEmpresa";
 import Postulaciones from "./pages/Postulaciones";
-
-//TODO: AL FINALIZAR EL PROYECTO, INSTALAR sweetalert2 Y EN TODOS LOS TRY-CATCH, CAMBIAR LOS MENSAJES DE CONSOLA POR LA ALERTA.
 
 function App() {
   return (
@@ -62,12 +62,16 @@ function App() {
             />
             <Route path="/auth/crear-empresa" element={<CrearEmpresa />} />
           </Route>
-
+          //* -------------------------------------
           <Route path="/" element={<AuthLayout />}>
             <Route index element={<Inicio />} />
             <Route path="/mi-perfil" element={<MiPerfil />} />
             <Route path="/mi-empresa" element={<MiEmpresa />} />
-            //* -------------USUARIOS------------------
+            {/* //TODO: FALTA POR HACER: */}
+            <Route path="/mis-mensajes/:id" element={<MisMensajes />} />
+            {/* //TODO: FALTA POR HACER: */}
+            <Route path="/enviar-mensaje/:id" element={<EnviarMensaje />} />
+            //*-------------USUARIOS------------------
             <Route path="/usuario/perfil/:id" element={<Usuario />} />
             <Route path="/usuario/editar/:id" element={<EditarUsuario />} />
             //* ---------------VACANTES----------------
@@ -82,12 +86,11 @@ function App() {
               path="/vacante/postulaciones/:id"
               element={<Postulaciones />}
             />
-            --------------EMPRESAS-----------------
+            //*--------------EMPRESAS-----------------
             <Route path="/ver-empresas" element={<VerEmpresas />} />
             <Route path="/empresa/:id" element={<VerEmpresa />} />
             <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />
           </Route>
-
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
