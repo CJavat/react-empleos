@@ -135,13 +135,15 @@ const decodificarToken = async (req, res) => {
 
 //! DESAPARECER TODO DEL RECLUTADOR.
 const desaparecerReclutador = async (req, res, next) => {
-  //TODO: PARECE QUE FUNCIONA, SEGUIR PROBANDO DESDE EL FRONT.
   //* Se obtiene el ID de la empresa, para sacar el usuario y vacantes.
   const { id } = req.params;
 
   try {
     //* BUSCAR RECLUTADOR Y SU EMPRESA.
     const obtenerEmpresa = await Empresa.findById(id).populate("reclutador");
+    if (!obtenerEmpresa) {
+      return res.status(404).json({ msg: "No es reclutador" });
+    }
 
     //* Destructurar nombre del logo y reclutador.
     const { logoEmpresa, reclutador } = obtenerEmpresa;
@@ -150,8 +152,12 @@ const desaparecerReclutador = async (req, res, next) => {
     const { _id, foto, cv } = reclutador;
 
     //* BUSCAR Y ELIMINAR VACANTES DEL RECLUTADOR.
-    //? FORMA DE ELIMINAR TODAS LAS VACANTES ENCONTRADAS -> const obtenerVacantes = await Vacante.find({ empresa: id }).remove().exec();
-    const obtenerVacantes = await Vacante.find({ empresa: id }); //? Eliminarlo después
+    const elimnarVacantes = await Vacante.find({ empresa: id }).remove().exec();
+    if (!elimnarVacantes) {
+      return res
+        .status(400)
+        .json({ msg: "Hubo un error al eliminar las vacantes" });
+    }
 
     //* ELIMINAR DOCUMENTOS DEL RECLUTADOR.
     if (logoEmpresa) await unlink(`${__dirname}/../uploads/pic/${logoEmpresa}`);
@@ -159,10 +165,20 @@ const desaparecerReclutador = async (req, res, next) => {
     if (cv) await unlink(`${__dirname}/../uploads/docs/${cv}`);
 
     //* BUSCAR Y ELIMINAR EMPRESA DEL RECLUTADOR.
-    await Empresa.findByIdAndRemove(id);
+    const eliminarEmpresa = await Empresa.findByIdAndRemove(id);
+    if (!eliminarEmpresa) {
+      return res
+        .status(400)
+        .json({ msg: "Hubo un error al eliminar la empresa." });
+    }
 
     //* ELIMINAR RECLUTADOR.
-    await Usuario.findByIdAndRemove(_id);
+    const eliminarUsuario = await Usuario.findByIdAndRemove(_id);
+    if (!eliminarUsuario) {
+      return res
+        .status(400)
+        .json({ msg: "Hubo un error al eliminar el usuario." });
+    }
 
     res.json({ msg: "Se elimino tu cuenta correctamente" });
   } catch (error) {

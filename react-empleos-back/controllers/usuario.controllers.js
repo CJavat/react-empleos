@@ -181,7 +181,7 @@ const obtenerUsuario = async (req, res) => {
     const usuario = await Usuario.findById(req.params.idCuenta);
 
     if (!usuario) {
-      return res.status(404).json({ msg: "Usuario No Encontrado" });
+      return res.status(400).json({ msg: "Usuario No Encontrado" });
     }
 
     res.json(usuario);
@@ -241,15 +241,17 @@ const editarCuenta = async (req, res, next) => {
 };
 
 const eliminarCuenta = async (req, res) => {
-  //TODO: ELIMINAR LOS DOCUMENTOS QUE EL USUARIO TIENE ALMACENADOS.
   try {
     const cuenta = await Usuario.findByIdAndDelete(req.params.idCuenta);
 
     if (!cuenta) {
       return res.status(404).json({ msg: "La Cuenta No Existe" });
     }
+    const { foto, cv } = cuenta;
 
-    //TODO: ELIMINAR DOCUMENTOS QUE SUBIÓ ESE USUARIO.
+    //* ELIMINAR DOCUMENTOS QUE SUBIÓ ESE USUARIO.
+    if (foto) await unlink(`${__dirname}/../uploads/pic/${foto}`);
+    if (cv) await unlink(`${__dirname}/../uploads/docs/${cv}`);
 
     res.json({ msg: "Cuenta Eliminada Correctamente" });
   } catch (error) {

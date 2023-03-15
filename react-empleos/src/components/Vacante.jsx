@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import formatearDinero from "../helpers/formatearDinero";
 import clienteAxios from "../helpers/configAxios";
@@ -11,6 +11,7 @@ const Vacante = () => {
   const { cargando, setCargando, usuarioLogeado } = useAuth();
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [datosVacante, setDatosVacante] = useState({});
   const [rutaLogo, setRutaLogo] = useState("");
@@ -93,6 +94,19 @@ const Vacante = () => {
         setMensajeAlerta("");
       }, 2500);
     }
+  };
+
+  const eliminarVacante = async () => {
+    const confirmacion = confirm("¿Estás seguro de eliminar la vacante?");
+    if (!confirmacion) {
+      return alert("Vacante no eliminada");
+    }
+
+    const respuesta = await clienteAxios.delete(
+      `/vacantes/eliminar-vacante/${id}`
+    );
+    alert(respuesta.data.msg);
+    navigate("/");
   };
 
   {
@@ -235,9 +249,8 @@ const Vacante = () => {
 
                 <button
                   className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
-                  // onClick={eliminarEmpresa}
+                  onClick={eliminarVacante}
                 >
-                  {/* //TODO: FALTA HACER ESTA PARTE */}
                   Eliminar Vacante
                 </button>
               </>

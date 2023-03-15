@@ -26,15 +26,14 @@ const Postulaciones = () => {
         );
         setDatosVacante(respuesta.data);
       };
+
       obtenerVacante();
 
-      console.log(datosVacante.empresa.reclutador._id);
-      console.log(usuarioLogeado._id);
       if (usuarioLogeado?._id === datosVacante.empresa?.reclutador?._id)
         setMiVacante(true);
       else setMiVacante(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.msg);
     }
     setCargando(false);
   }, [datosVacante?.empresa?.reclutador?._id]);
@@ -60,9 +59,7 @@ const Postulaciones = () => {
           </p>
         </div>
 
-        {/* //TODO: ELIMINAR LA POSTULACIÓN DE UN EMPLEADO */}
-
-        {datosVacante.usuariosPostulados.map((usuario) => (
+        {datosVacante?.usuariosPostulados.map((usuario) => (
           <UsuariosPostulados
             key={usuario}
             usuario={usuario}

@@ -5,7 +5,8 @@ import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
 
 const MiPerfil = () => {
-  const { cargando, usuarioLogeado, setCargando } = useAuth();
+  const { cargando, usuarioLogeado, setCargando, setUsuarioLogeado } =
+    useAuth();
 
   const [miUsuario, setMiUsuario] = useState({});
 
@@ -22,6 +23,52 @@ const MiPerfil = () => {
     } catch (error) {}
     setCargando(false);
   }, []);
+
+  const eliminarUsuario = async (e) => {
+    let confirmacion = confirm("¿Estás seguro de eliminar tu cuenta?");
+    console.log(confirmacion);
+
+    if (!confirmacion) {
+      return alert("Cuenta no eliminada");
+    }
+
+    const respuesta = await clienteAxios.delete(
+      `/usuarios/eliminar-cuenta/${usuarioLogeado._id}`
+    );
+
+    try {
+      localStorage.removeItem("token");
+      setUsuarioLogeado({});
+      navigate("/auth/iniciar-sesion");
+    } catch (error) {
+      console.log(error);
+    }
+
+    alert(respuesta.data.msg);
+  };
+  const eliminarReclutador = async (e) => {
+    let confirmacion = confirm(
+      "¿Estás seguro de eliminar tu cuenta?, TODO SE VA A BORRAR"
+    );
+
+    if (!confirmacion) {
+      return alert("Cuenta no eliminada");
+    }
+
+    const respuesta = await clienteAxios.delete(
+      `/usuarios/eliminar-cuenta/${usuarioLogeado._id}`
+    );
+
+    try {
+      localStorage.removeItem("token");
+      setUsuarioLogeado({});
+      navigate("/auth/iniciar-sesion");
+    } catch (error) {
+      console.log(error);
+    }
+
+    alert(respuesta.data.msg);
+  };
 
   return cargando ? (
     <Spinner />
@@ -50,12 +97,10 @@ const MiPerfil = () => {
           <p className="flex gap-2">
             Rol: <span className=" text-blue-600">{miUsuario?.rol}</span>
           </p>
-
           <p className="flex movilS:gap-0 movilS:flex-col movilL:flex-row movilL:gap-2">
             Email:
             <span className="text-blue-600">{miUsuario?.email}</span>
           </p>
-
           <p className="flex items-center mt-1 gap-2">
             {miUsuario.rol === "Empleado" ? (
               <>
@@ -88,7 +133,6 @@ const MiPerfil = () => {
               </Link>
             )}
           </p>
-
           <Link
             to={`/usuario/editar/${miUsuario._id}`}
             className="uppercase text-center border-2 flex-1 rounded-lg mt-7 py-2 px-3 border-none bg-blue-700 text-white hover:text-blue-700 hover:bg-white"
@@ -96,14 +140,21 @@ const MiPerfil = () => {
             Editar Perfil
           </Link>
 
-          {/* //TODO: FALTA BORRAR USUARIOS */}
-          <button
-            //TODO: SI ES USUARIO, ELIMINARLO DESDE LA RUTA DE USUARIOS Y ELIMINAR DOCS, PERO SI ES RECLUTADOR ELIMINAR, USUARIOS, VACANTES Y DOCS
-            className="uppercase border-2 rounded-lg mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
-            // onClick={eliminarEmpresa}
-          >
-            Eliminar Mi Perfil
-          </button>
+          {usuarioLogeado.rol === "Reclutador" ? (
+            <button
+              className="uppercase border-2 rounded-lg mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
+              onClick={eliminarReclutador}
+            >
+              Eliminar Mi Perfil
+            </button>
+          ) : (
+            <button
+              className="uppercase border-2 rounded-lg mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
+              onClick={eliminarUsuario}
+            >
+              Eliminar Mi Perfil
+            </button>
+          )}
         </div>
 
         <div className="flex flex-col justify-center items-center w-full">

@@ -1,23 +1,50 @@
 import { useEffect, useState } from "react";
 import clienteAxios from "../helpers/configAxios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const UsuariosPostulados = ({ usuario, nombreVacante }) => {
+const UsuariosPostulados = ({ usuario }) => {
+  const navigate = useNavigate();
   const [datosUsuario, setDatosUsuario] = useState({});
+  const [eliminado, setEliminado] = useState(false);
 
   useEffect(() => {
     const obtenerUsuario = async () => {
-      const respuesta = await clienteAxios.get(
-        `/usuarios/mostrar-usuario/${usuario}`
-      );
-      setDatosUsuario(respuesta.data);
+      try {
+        const respuesta = await clienteAxios.get(
+          `/usuarios/mostrar-usuario/${usuario}`
+        );
+
+        setDatosUsuario(respuesta.data);
+      } catch (error) {
+        if (error.response.data.msg === "Usuario No Encontrado") {
+          setEliminado(true);
+        }
+      }
     };
     obtenerUsuario();
   }, []);
 
+  const eliminarPostulacion = async () => {
+    // console.log(usuario);
+    try {
+      const respuesta = await clienteAxios.delete(
+        `vacantes/eliminar-postulacion/${usuario}`
+      );
+      alert(respuesta.data.msg);
+      navigate("/");
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-11/12 laptop:w-9/12 desktop:w-8/12">
       <div className="flex movilS:flex-col-reverse tablet:flex-row movilS:items-center tablet:justify-between border-2 border-blue-600 rounded-md gap-7 py-5 px-3 w-full">
+        {eliminado ? (
+          <p className="bg-red-400 text-white bold px-2 py-1 rounded-full text-sm">
+            El usuario ya no existe
+          </p>
+        ) : null}
         <div className="w-full flex flex-col movilS:self-start tablet:self-center uppercase font-bold">
           <p className="flex gap-2">
             Nombre:{" "}
@@ -66,12 +93,21 @@ const UsuariosPostulados = ({ usuario, nombreVacante }) => {
             }
           </p>
 
-          <Link
+          {
+            <button
+              className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
+              onClick={eliminarPostulacion}
+            >
+              Eliminar Postulacion
+            </button>
+          }
+
+          {/* <Link
             to={`/enviar-mensaje/${datosUsuario._id}`}
             className="uppercase text-center border-2 rounded-2xl self-center w-fit mt-3 py-2 px-4 font-bold border-blue-700 bg-blue-600 hover:text-blue-600 hover:border-blue-600 hover:bg-white"
           >
             Enviar Un Mensaje
-          </Link>
+          </Link> */}
         </div>
 
         <div className="flex flex-col justify-center items-center w-full">

@@ -139,6 +139,22 @@ const postularme = async (req, res, next) => {
   }
 };
 
+//! ELIMINAR POSTULACION --
+const eliminarPostulacion = async (req, res, next) => {
+  const { id } = req.params;
+  const eliminarPostulacion = await Vacante.findOne({ usuariosPostulados: id });
+  const postulacionFiltrada = eliminarPostulacion.usuariosPostulados.filter(
+    (postulacion) => postulacion != id
+  );
+  eliminarPostulacion.usuariosPostulados = postulacionFiltrada;
+  const postulacionEliminada = await eliminarPostulacion.save();
+  if (!postulacionEliminada) {
+    res.status(400).json({ msg: "Hubo un error al eliminar la postulacion" });
+  }
+
+  res.json({ msg: "Postulacion elminada exitosamente" });
+};
+
 //! MOSTRAR TODAS LAS VACANTES QUE CONTIENE UNA EMPRESA --
 const mostrarVacantesDeEmpresa = async (req, res, next) => {
   const { id } = req.params;
@@ -169,4 +185,5 @@ module.exports = {
   eliminarVacante,
   postularme,
   mostrarVacantesDeEmpresa,
+  eliminarPostulacion,
 };
