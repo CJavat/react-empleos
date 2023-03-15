@@ -135,6 +135,8 @@ const MiEmpresa = () => {
             Editar Mi Empresa
           </Link>
 
+          {/* //TODO: FALTA ELIMINAR LA EMPRESA, ESO CONLLEVA A ELIMINAR USUARIO LIGADO A ESA EMPRESA, VACANTES Y DOCUMENTOS QUE HAYA SUBIDO. */}
+
           {vacantesEncontradas ? (
             <Link
               to={`/mis-vacantes/${empresa?._id}`}

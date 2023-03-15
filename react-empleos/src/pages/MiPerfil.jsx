@@ -95,6 +95,14 @@ const MiPerfil = () => {
           >
             Editar Perfil
           </Link>
+
+          {/* //TODO: FALTA BORRAR USUARIOS */}
+          <button
+            className="uppercase border-2 rounded-lg mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
+            // onClick={eliminarEmpresa}
+          >
+            Eliminar Mi Empresa
+          </button>
         </div>
 
         <div className="flex flex-col justify-center items-center w-full">

@@ -71,6 +71,7 @@ function App() {
             <Route path="/mi-perfil" element={<MiPerfil />} />
             <Route path="/mi-empresa" element={<MiEmpresa />} />
             <Route path="/mis-vacantes/:id" element={<MisVacantes />} />
+            {/* //TODO: FALTA TODO LO RELACIONADO A MENSAJES */}
             <Route path="/mis-mensajes/:id" element={<MisMensajes />} />
             <Route path="/enviar-mensaje/:id" element={<EnviarMensaje />} />
             //*-------------USUARIOS------------------
@@ -93,6 +94,7 @@ function App() {
               element={<Postulaciones />}
             />
             //*--------------EMPRESAS-----------------
+            {/* //TODO: FALTA ELIMINAR LA EMPRESA Y USUARIO LIGADO A ESA EMPRESA. Y DOCUMENTOS QUE HAYA SUBIDO. */}
             <Route path="/ver-empresas" element={<VerEmpresas />} />
             <Route path="/empresa/:id" element={<VerEmpresa />} />
             <Route path="/empresa/editar/:id" element={<EditarEmpresa />} />

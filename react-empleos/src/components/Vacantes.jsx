@@ -9,7 +9,6 @@ const Vacantes = (props) => {
   const [rutaLogo, setRutaLogo] = useState("");
 
   useEffect(() => {
-    console.log(empresa);
     if (empresa?.logoEmpresa?.length > 0) {
       setRutaLogo(`http://localhost:5000/${empresa?.logoEmpresa}`);
       setHayLogo(true);

@@ -60,6 +60,8 @@ const Postulaciones = () => {
           </p>
         </div>
 
+        {/* //TODO: ELIMINAR LA POSTULACIÓN DE UN EMPLEADO */}
+
         {datosVacante.usuariosPostulados.map((usuario) => (
           <UsuariosPostulados
             key={usuario}

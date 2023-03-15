@@ -248,6 +248,8 @@ const eliminarCuenta = async (req, res) => {
       return res.status(404).json({ msg: "La Cuenta No Existe" });
     }
 
+    //TODO: ELIMINAR DOCUMENTOS QUE SUBIÓ ESE USUARIO.
+
     res.json({ msg: "Cuenta Eliminada Correctamente" });
   } catch (error) {
     return res

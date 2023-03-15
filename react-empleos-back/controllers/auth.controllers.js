@@ -1,5 +1,9 @@
 const Usuario = require("../models/Usuario.models");
+const Empresa = require("../models/Empresa.models");
+const Vacante = require("../models/Vacante.models");
+
 const { emailOlvidePassword } = require("../config/mailtrap");
+
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -128,10 +132,38 @@ const decodificarToken = async (req, res) => {
   }
 };
 
+//! DESAPARECER TODO DEL RECLUTADOR.
+const desaparecerReclutador = async (req, res, next) => {
+  //* Se obtiene el ID de la empresa, para sacar el usuario y vacantes.
+  const { id } = req.params;
+
+  //* BUSCAR RECLUTADOR Y SU EMPRESA.
+  const obtenerEmpresa = await Empresa.findById(id).populate("reclutador");
+
+  //* Destructurar nombre del logo y reclutador.
+  const { logoEmpresa, reclutador } = obtenerEmpresa;
+
+  //* Destructurar idReclutador, foto y cv.
+  const { _id, foto, cv } = reclutador;
+
+  //* BUSCAR Y ELIMINAR VACANTES DEL RECLUTADOR.
+  //? FORMA DE ELIMINAR TODAS LAS VACANTES ENCONTRADAS -> const obtenerVacantes = await Vacante.find({ empresa: id }).remove().exec();
+  const obtenerVacantes = await Vacante.find({ empresa: id }); //? Eliminarlo después
+
+  //TODO: BUSCAR Y ELIMINAR EMPRESA DEL RECLUTADOR.
+  res.json(obtenerVacantes);
+
+  //TODO: ELIMINAR DOCUMENTOS DEL RECLUTADOR.
+
+  //TODO: ELIMINAR RECLUTADOR.
+  console.log(id);
+};
+
 module.exports = {
   comprobarCuenta,
   olvidePassword,
   recuperarPassword,
   comprobarToken,
   decodificarToken,
+  desaparecerReclutador,
 };

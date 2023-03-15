@@ -225,12 +225,21 @@ const Vacante = () => {
             ) : null}
 
             {esMiVacante ? (
-              <Link
+              <>
+                <Link
+                  to={`/vacante/editar-vacante/${id}`}
+                  className="uppercase text-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-indigo-700 bg-indigo-600 hover:text-indigo-600 hover:border-blue-600 hover:bg-white"
+                >
+                  Editar Vacante
+                </Link>
+
+                {/* <Link
                 to={`/vacante/editar-vacante/${id}`}
                 className="uppercase text-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-indigo-700 bg-indigo-600 hover:text-indigo-600 hover:border-blue-600 hover:bg-white"
               >
-                Editar Vacante
-              </Link>
+                Eliminar Vacante //TODO: FALTA BORRAR VACANTES
+              </Link> */}
+              </>
             ) : null}
           </div>
         </div>

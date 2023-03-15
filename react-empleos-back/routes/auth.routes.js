@@ -9,6 +9,7 @@ const {
   recuperarPassword,
   comprobarToken,
   decodificarToken,
+  desaparecerReclutador,
 } = require("../controllers/auth.controllers");
 
 //! CONFIRMAR LA CUENTA --
@@ -25,5 +26,8 @@ router.post("/comprobar-token/:token", comprobarToken);
 
 //! COMPROBAR TOKEN QUE VIENE DESDE EL FRONTEND --
 router.post("/decodificar-token/:token", decodificarToken);
+
+//! ELIMINAR TODO RASTRO DEL RECLUTADOR --
+router.delete("/desaparecer-reclutador/:id", desaparecerReclutador);
 
 module.exports = router;
