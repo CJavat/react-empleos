@@ -98,10 +98,11 @@ const MiPerfil = () => {
 
           {/* //TODO: FALTA BORRAR USUARIOS */}
           <button
+            //TODO: SI ES USUARIO, ELIMINARLO DESDE LA RUTA DE USUARIOS Y ELIMINAR DOCS, PERO SI ES RECLUTADOR ELIMINAR, USUARIOS, VACANTES Y DOCS
             className="uppercase border-2 rounded-lg mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
             // onClick={eliminarEmpresa}
           >
-            Eliminar Mi Empresa
+            Eliminar Mi Perfil
           </button>
         </div>
 

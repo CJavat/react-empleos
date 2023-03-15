@@ -241,6 +241,7 @@ const editarCuenta = async (req, res, next) => {
 };
 
 const eliminarCuenta = async (req, res) => {
+  //TODO: ELIMINAR LOS DOCUMENTOS QUE EL USUARIO TIENE ALMACENADOS.
   try {
     const cuenta = await Usuario.findByIdAndDelete(req.params.idCuenta);
 

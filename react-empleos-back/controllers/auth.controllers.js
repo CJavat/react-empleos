@@ -4,6 +4,7 @@ const Vacante = require("../models/Vacante.models");
 
 const { emailOlvidePassword } = require("../config/mailtrap");
 
+const { unlink } = require("node:fs/promises");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -134,29 +135,41 @@ const decodificarToken = async (req, res) => {
 
 //! DESAPARECER TODO DEL RECLUTADOR.
 const desaparecerReclutador = async (req, res, next) => {
+  //TODO: PARECE QUE FUNCIONA, SEGUIR PROBANDO DESDE EL FRONT.
   //* Se obtiene el ID de la empresa, para sacar el usuario y vacantes.
   const { id } = req.params;
 
-  //* BUSCAR RECLUTADOR Y SU EMPRESA.
-  const obtenerEmpresa = await Empresa.findById(id).populate("reclutador");
+  try {
+    //* BUSCAR RECLUTADOR Y SU EMPRESA.
+    const obtenerEmpresa = await Empresa.findById(id).populate("reclutador");
 
-  //* Destructurar nombre del logo y reclutador.
-  const { logoEmpresa, reclutador } = obtenerEmpresa;
+    //* Destructurar nombre del logo y reclutador.
+    const { logoEmpresa, reclutador } = obtenerEmpresa;
 
-  //* Destructurar idReclutador, foto y cv.
-  const { _id, foto, cv } = reclutador;
+    //* Destructurar idReclutador, foto y cv.
+    const { _id, foto, cv } = reclutador;
 
-  //* BUSCAR Y ELIMINAR VACANTES DEL RECLUTADOR.
-  //? FORMA DE ELIMINAR TODAS LAS VACANTES ENCONTRADAS -> const obtenerVacantes = await Vacante.find({ empresa: id }).remove().exec();
-  const obtenerVacantes = await Vacante.find({ empresa: id }); //? Eliminarlo después
+    //* BUSCAR Y ELIMINAR VACANTES DEL RECLUTADOR.
+    //? FORMA DE ELIMINAR TODAS LAS VACANTES ENCONTRADAS -> const obtenerVacantes = await Vacante.find({ empresa: id }).remove().exec();
+    const obtenerVacantes = await Vacante.find({ empresa: id }); //? Eliminarlo después
 
-  //TODO: BUSCAR Y ELIMINAR EMPRESA DEL RECLUTADOR.
-  res.json(obtenerVacantes);
+    //* ELIMINAR DOCUMENTOS DEL RECLUTADOR.
+    if (logoEmpresa) await unlink(`${__dirname}/../uploads/pic/${logoEmpresa}`);
+    if (foto) await unlink(`${__dirname}/../uploads/pic/${foto}`);
+    if (cv) await unlink(`${__dirname}/../uploads/docs/${cv}`);
 
-  //TODO: ELIMINAR DOCUMENTOS DEL RECLUTADOR.
+    //* BUSCAR Y ELIMINAR EMPRESA DEL RECLUTADOR.
+    await Empresa.findByIdAndRemove(id);
 
-  //TODO: ELIMINAR RECLUTADOR.
-  console.log(id);
+    //* ELIMINAR RECLUTADOR.
+    await Usuario.findByIdAndRemove(_id);
+
+    res.json({ msg: "Se elimino tu cuenta correctamente" });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ msg: "Hubo un error en la consulta: " + error.message });
+  }
 };
 
 module.exports = {

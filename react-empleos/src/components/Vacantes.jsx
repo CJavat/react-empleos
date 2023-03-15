@@ -25,10 +25,10 @@ const Vacantes = (props) => {
           Salario: <span className="font-bold">{formatearDinero(salario)}</span>
         </p>
         <p>
-          Empresa: <span className="font-bold">{empresa.empresa}</span>
+          Empresa: <span className="font-bold">{empresa?.empresa}</span>
         </p>
         <p>
-          País: <span className="font-bold">{empresa.pais}</span>
+          País: <span className="font-bold">{empresa?.pais}</span>
         </p>
         <Link
           to={`/vacante/mostrar-vacante/${_id}`}

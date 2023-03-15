@@ -233,12 +233,13 @@ const Vacante = () => {
                   Editar Vacante
                 </Link>
 
-                {/* <Link
-                to={`/vacante/editar-vacante/${id}`}
-                className="uppercase text-center border-2 rounded-2xl w-fit mt-3 py-2 px-4 font-bold border-indigo-700 bg-indigo-600 hover:text-indigo-600 hover:border-blue-600 hover:bg-white"
-              >
-                Eliminar Vacante //TODO: FALTA BORRAR VACANTES
-              </Link> */}
+                <button
+                  className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
+                  // onClick={eliminarEmpresa}
+                >
+                  {/* //TODO: FALTA HACER ESTA PARTE */}
+                  Eliminar Vacante
+                </button>
               </>
             ) : null}
           </div>

@@ -35,7 +35,6 @@ const MiEmpresa = () => {
   }, [empresa._id < 0]);
 
   useEffect(() => {
-    console.log(empresa);
     setCargando(true);
     const obtenerEmpresa = async () => {
       if (empresa._id) {
@@ -136,11 +135,17 @@ const MiEmpresa = () => {
           </Link>
 
           {/* //TODO: FALTA ELIMINAR LA EMPRESA, ESO CONLLEVA A ELIMINAR USUARIO LIGADO A ESA EMPRESA, VACANTES Y DOCUMENTOS QUE HAYA SUBIDO. */}
+          <button
+            className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:red-indigo-600 hover:border-white hover:bg-white"
+            // onClick={eliminarEmpresa}
+          >
+            Eliminar Mi Empresa
+          </button>
 
           {vacantesEncontradas ? (
             <Link
               to={`/mis-vacantes/${empresa?._id}`}
-              className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-red-500 bg-red-500 text-white hover:text-red-600 hover:border-white hover:bg-white"
+              className="uppercase border-2 rounded-2xl mt-3 py-2 px-4 font-bold text-center movilS:w-full tablet:w-fit border-green-500 bg-green-500 text-white hover:text-green-600 hover:border-white hover:bg-white"
             >
               Ver mis vacantes
             </Link>
